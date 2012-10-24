@@ -1,0 +1,13 @@
+recipes:
+- core  
+
+prefs:
+  :dev_webserver: thin
+  :templates: haml
+  :unit_test: rspec
+  :integration: rspec-capybara
+  :fixtures: factory_girl
+  
+args:
+  :skip_test_unit: yes 
+  :skip_active_record: false

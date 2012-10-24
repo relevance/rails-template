@@ -1,0 +1,8 @@
+* Ask about ActiveAdmin
+* Ask about Devise + Omniauth
+* Ask about background jobs/Sidekiq?
+* Ask about exception notification
+* Ask about task scheduling/Whenever
+
+* Add koality
+* Add Compass
