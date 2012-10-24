@@ -1,7 +1,10 @@
 recipes:
-- core  
+- core
+- admin
+- koality
 
 prefs:
+  :railsapps: none
   :dev_webserver: thin
   :templates: haml
   :unit_test: rspec
