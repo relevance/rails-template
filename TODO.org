@@ -1,8 +1,11 @@
-* Ask about ActiveAdmin
-* Ask about Devise + Omniauth
-* Ask about background jobs/Sidekiq?
-* Ask about exception notification
-* Ask about task scheduling/Whenever
-
-* Add koality
-* Add Compass
+* DONE Ask about ActiveAdmin
+** TODO Do not ask about ActiveAdmin if you are not using ActiveRecord
+* TODO Port magic scrolls from Relevance-Rails
+* TODO Ask about Devise + Omniauth
+* TODO Ask about background jobs/Sidekiq?
+* TODO Ask about exception notification
+* TODO Ask about task scheduling/Whenever
+* DONE Add koality
+* TODO Add Compass
+* TODO Fix diagnostics message at end of template
+* TODO Remove WEBRick from production web server choices
