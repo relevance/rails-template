@@ -49,18 +49,6 @@ if recipes.include? 'testing'
   prefs[:fixtures] = multiple_choice "Fixture replacement?", [["None","none"], ["Factory Girl","factory_girl"], ["Machinist","machinist"], ["Fabrication","fabrication"]] unless prefs.has_key? :fixtures
 end
 
-## Front-end Framework
-frontend_frameworks = [
-  ["None", "none"],
-  ["Compass", "compass"]
-  ["Zurb Foundation", "foundation"],
-  ["Skeleton", "skeleton"],
-  ["Just normalize CSS for consistent styling", "normalize"]]
-
-if recipes.include? 'frontend'
-  prefs[:frontend] = multiple_choice "Front-end framework?", frontend_frameworks unless prefs.has_key? :frontend
-end
-
 ## Email
 if recipes.include? 'email'
   prefs[:email] = multiple_choice "Add support for sending email?", [["None", "none"], ["Gmail","gmail"], ["SMTP","smtp"],

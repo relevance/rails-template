@@ -72,11 +72,6 @@ gem 'factory_girl_rails', '>= 4.1.0', :group => [:development, :test] if prefer 
 gem 'fabrication', '>= 2.3.0', :group => [:development, :test] if prefer :fixtures, 'fabrication'
 gem 'machinist', '>= 2.0', :group => :test if prefer :fixtures, 'machinist'
 
-if prefer :frontend, 'foundation' || prefer :frontend, 'compass'
-  gem 'compass-rails', '~> 1.0.3', :group => :assets
-end
-gem 'zurb-foundation', '~> 3.1.1', :group => :assets if prefer :frontend, 'foundation'
-
 ## Email
 gem 'sendgrid', '>= 1.0.1' if prefer :email, 'sendgrid'
 gem 'hominid', '>= 3.0.5' if prefer :email, 'mandrill'
