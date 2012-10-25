@@ -29,8 +29,8 @@ Rails.application.config.generators do |g|
 end
 RUBY
 
-@recipes = ["git", "setup", "readme", "gems", "testing", "email", "models", "controllers", "views", "routes", "frontend", "init", "extras", "admin", "koality"]
-@prefs = {:dev_webserver=>"thin", :templates=>"haml", :unit_test=>"rspec", :integration=>"rspec-capybara", :fixtures=>"factory_girl", :authorization=>"none"}
+@recipes = ["git", "setup", "readme", "gems", "testing", "email", "models", "controllers", "views", "frontend", "init", "extras", "admin", "koality"]
+@prefs = {:dev_webserver=>"thin", :templates=>"haml", :unit_test=>"rspec", :integration=>"rspec-capybara", :fixtures=>"factory_girl"}
 @gems = []
 @diagnostics_recipes = [["example"], ["setup"], ["railsapps"], ["gems", "setup"], ["gems", "readme", "setup"], ["extras", "gems", "readme", "setup"], ["example", "git"], ["git", "setup"], ["git", "railsapps"], ["gems", "git", "setup"], ["gems", "git", "readme", "setup"], ["extras", "gems", "git", "readme", "setup"], ["controllers", "email", "extras", "frontend", "gems", "git", "init", "models", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "core", "email", "extras", "frontend", "gems", "git", "init", "models", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "core", "email", "extras", "frontend", "gems", "git", "init", "models", "prelaunch", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "core", "email", "extras", "frontend", "gems", "git", "init", "models", "prelaunch", "railsapps", "readme", "routes", "saas", "setup", "testing", "views"], ["controllers", "email", "example", "extras", "frontend", "gems", "git", "init", "models", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "email", "example", "extras", "frontend", "gems", "git", "init", "models", "prelaunch", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "email", "example", "extras", "frontend", "gems", "git", "init", "models", "prelaunch", "railsapps", "readme", "routes", "saas", "setup", "testing", "views"]]
 @diagnostics_prefs = [{:railsapps=>"rails-stripe-membership-saas", :database=>"sqlite", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"bootstrap", :bootstrap=>"sass", :email=>"gmail", :authentication=>"devise", :devise_modules=>"default", :authorization=>"cancan", :starter_app=>"admin_app", :form_builder=>"simple_form"}, {:railsapps=>"rails-stripe-membership-saas", :database=>"sqlite", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"bootstrap", :bootstrap=>"sass", :email=>"mandrill", :authentication=>"devise", :devise_modules=>"confirmable", :authorization=>"cancan", :starter_app=>"admin_app", :form_builder=>"simple_form"}, {:railsapps=>"rails-prelaunch-signup", :database=>"sqlite", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"bootstrap", :bootstrap=>"sass", :email=>"mandrill", :authentication=>"devise", :devise_modules=>"confirmable", :authorization=>"cancan", :starter_app=>"admin_app", :form_builder=>"simple_form"}, {:railsapps=>"rails3-bootstrap-devise-cancan", :database=>"sqlite", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"bootstrap", :bootstrap=>"sass", :email=>"gmail", :authentication=>"devise", :devise_modules=>"default", :authorization=>"cancan", :starter_app=>"admin_app", :form_builder=>"simple_form"}, {:railsapps=>"rails3-devise-rspec-cucumber", :database=>"sqlite", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"none", :email=>"gmail", :authentication=>"devise", :devise_modules=>"default", :authorization=>"none", :starter_app=>"users_app", :form_builder=>"none"}, {:railsapps=>"rails3-mongoid-devise", :database=>"mongodb", :orm=>"mongoid", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"none", :email=>"gmail", :authentication=>"devise", :devise_modules=>"default", :authorization=>"none", :starter_app=>"users_app", :form_builder=>"none"}, {:railsapps=>"rails3-mongoid-omniauth", :database=>"mongodb", :orm=>"mongoid", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"none", :email=>"none", :authentication=>"omniauth", :omniauth_provider=>"twitter", :authorization=>"none", :starter_app=>"users_app", :form_builder=>"none"}, {:railsapps=>"rails3-subdomains", :database=>"mongodb", :orm=>"mongoid", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"none", :email=>"gmail", :authentication=>"devise", :devise_modules=>"default", :authorization=>"none", :starter_app=>"subdomains_app", :form_builder=>"none"}, {:railsapps=>"none", :database=>"sqlite", :unit_test=>"rspec", :integration=>"rspec-capybara", :fixtures=>"factory_girl", :frontend=>"bootstrap", :bootstrap=>"sass", :email=>"none", :authentication=>"omniauth", :omniauth_provider=>"twitter", :authorization=>"cancan", :form_builder=>"none", :starter_app=>"admin_app"}, {:railsapps=>"none", :database=>"sqlite", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"none", :frontend=>"bootstrap", :bootstrap=>"sass", :email=>"gmail", :authentication=>"devise", :devise_modules=>"invitable", :authorization=>"cancan", :form_builder=>"simple_form", :starter_app=>"admin_app"}, {:railsapps=>"none", :database=>"sqlite", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"bootstrap", :bootstrap=>"sass", :email=>"gmail", :authentication=>"devise", :devise_modules=>"default", :authorization=>"cancan", :form_builder=>"none", :starter_app=>"admin_app"}, {:railsapps=>"none", :database=>"sqlite", :unit_test=>"test_unit", :integration=>"none", :fixtures=>"none", :frontend=>"bootstrap", :bootstrap=>"less", :email=>"sendgrid", :authentication=>"devise", :devise_modules=>"confirmable", :authorization=>"cancan", :form_builder=>"none", :starter_app=>"admin_app"}]
@@ -291,24 +291,6 @@ end
 
 ## Form Builder
 prefs[:form_builder] = multiple_choice "Use a form builder gem?", [["None", "none"], ["SimpleForm", "simple_form"]] unless prefs.has_key? :form_builder
-
-## MVC
-if (recipes.include? 'models') && (recipes.include? 'controllers') && (recipes.include? 'views') && (recipes.include? 'routes')
-  if prefer :authentication, 'devise'
-    if prefer :orm, 'mongoid'
-      prefs[:starter_app] = multiple_choice "Install a starter app?", [["None", "none"], ["Home Page", "home_app"],
-        ["Home Page, User Accounts", "users_app"], ["Home Page, User Accounts, Subdomains", "subdomains_app"]] unless prefs.has_key? :starter_app
-    else
-      prefs[:starter_app] = multiple_choice "Install a starter app?", [["None", "none"], ["Home Page", "home_app"],
-        ["Home Page, User Accounts", "users_app"]] unless prefs.has_key? :starter_app
-    end
-  elsif prefer :authentication, 'omniauth'
-    prefs[:starter_app] = multiple_choice "Install a starter app?", [["None", "none"], ["Home Page", "home_app"],
-      ["Home Page, User Accounts", "users_app"]] unless prefs.has_key? :starter_app
-  else
-    prefs[:starter_app] = multiple_choice "Install a starter app?", [["None", "none"], ["Home Page", "home_app"]] unless prefs.has_key? :starter_app
-  end
-end
 
 # save diagnostics before anything can fail
 create_file "README", "RECIPES\n#{recipes.sort.inspect}\n"
@@ -612,7 +594,7 @@ after_bundler do
     end
 
 RUBY
-    end  
+    end
   end
   ### RSPEC ###
   if prefer :unit_test, 'rspec'
@@ -708,131 +690,6 @@ end # after_bundler
 
 after_everything do
   say_wizard "recipe running after everything"
-  ### RSPEC ###
-  if prefer :unit_test, 'rspec'
-    if (prefer :authentication, 'devise') && (prefer :starter_app, 'users_app')
-      say_wizard "copying RSpec files from the rails3-devise-rspec-cucumber examples"
-      repo = 'https://raw.github.com/RailsApps/rails3-devise-rspec-cucumber/master/'
-      copy_from_repo 'spec/factories/users.rb', :repo => repo
-      gsub_file 'spec/factories/users.rb', /# confirmed_at/, "confirmed_at" if (prefer :devise_modules, 'confirmable') || (prefer :devise_modules, 'invitable')
-      copy_from_repo 'spec/controllers/home_controller_spec.rb', :repo => repo
-      copy_from_repo 'spec/controllers/users_controller_spec.rb', :repo => repo
-      copy_from_repo 'spec/models/user_spec.rb', :repo => repo
-      remove_file 'spec/views/home/index.html.erb_spec.rb'
-      remove_file 'spec/views/home/index.html.haml_spec.rb'
-      remove_file 'spec/views/users/show.html.erb_spec.rb'
-      remove_file 'spec/views/users/show.html.haml_spec.rb'
-      remove_file 'spec/helpers/home_helper_spec.rb'
-      remove_file 'spec/helpers/users_helper_spec.rb'
-    end
-    if (prefer :authentication, 'devise') && (prefer :starter_app, 'admin_app')
-      say_wizard "copying RSpec files from the rails3-bootstrap-devise-cancan examples"
-      repo = 'https://raw.github.com/RailsApps/rails3-bootstrap-devise-cancan/master/'
-      copy_from_repo 'spec/factories/users.rb', :repo => repo
-      gsub_file 'spec/factories/users.rb', /# confirmed_at/, "confirmed_at" if (prefer :devise_modules, 'confirmable') || (prefer :devise_modules, 'invitable')
-      copy_from_repo 'spec/controllers/home_controller_spec.rb', :repo => repo
-      copy_from_repo 'spec/controllers/users_controller_spec.rb', :repo => repo
-      copy_from_repo 'spec/models/user_spec.rb', :repo => repo
-      remove_file 'spec/views/home/index.html.erb_spec.rb'
-      remove_file 'spec/views/home/index.html.haml_spec.rb'
-      remove_file 'spec/views/users/show.html.erb_spec.rb'
-      remove_file 'spec/views/users/show.html.haml_spec.rb'
-      remove_file 'spec/helpers/home_helper_spec.rb'
-      remove_file 'spec/helpers/users_helper_spec.rb'
-    end
-    ## RSPEC AND OMNIAUTH
-    if (prefer :authentication, 'omniauth') && (prefer :starter_app, 'users_app')
-      say_wizard "copying RSpec files from the rails3-mongoid-omniauth examples"
-      repo = 'https://raw.github.com/RailsApps/rails3-mongoid-omniauth/master/'
-      copy_from_repo 'spec/factories/users.rb', :repo => repo
-      copy_from_repo 'spec/controllers/sessions_controller_spec.rb', :repo => repo
-      copy_from_repo 'spec/controllers/home_controller_spec.rb', :repo => repo
-      copy_from_repo 'spec/controllers/users_controller_spec.rb', :repo => repo
-      copy_from_repo 'spec/models/user_spec.rb', :repo => repo
-    end
-    ## SUBDOMAINS
-    if (prefer :authentication, 'devise') && (prefer :starter_app, 'subdomains_app')
-      say_wizard "copying RSpec files from the rails3-subdomains examples"
-      repo = 'https://raw.github.com/RailsApps/rails3-subdomains/master/'
-      copy_from_repo 'spec/factories/users.rb', :repo => repo
-      copy_from_repo 'spec/controllers/home_controller_spec.rb', :repo => repo
-      copy_from_repo 'spec/controllers/users_controller_spec.rb', :repo => repo
-      copy_from_repo 'spec/models/user_spec.rb', :repo => repo
-    end
-    ## GIT
-    git :add => '-A' if prefer :git, true
-    git :commit => '-qm "rails_apps_composer: rspec files"' if prefer :git, true
-  end
-  ### CUCUMBER ###
-  if prefer :integration, 'cucumber'
-    ## CUCUMBER AND DEVISE (USERS APP)
-    if (prefer :authentication, 'devise') && (prefer :starter_app, 'users_app')
-      say_wizard "copying Cucumber scenarios from the rails3-devise-rspec-cucumber examples"
-      repo = 'https://raw.github.com/RailsApps/rails3-devise-rspec-cucumber/master/'
-      copy_from_repo 'spec/controllers/home_controller_spec.rb', :repo => repo
-      copy_from_repo 'features/users/sign_in.feature', :repo => repo
-      copy_from_repo 'features/users/sign_out.feature', :repo => repo
-      copy_from_repo 'features/users/sign_up.feature', :repo => repo
-      copy_from_repo 'features/users/user_edit.feature', :repo => repo
-      copy_from_repo 'features/users/user_show.feature', :repo => repo
-      copy_from_repo 'features/step_definitions/user_steps.rb', :repo => repo
-      copy_from_repo 'features/support/paths.rb', :repo => repo
-      if (prefer :devise_modules, 'confirmable') || (prefer :devise_modules, 'invitable')
-        gsub_file 'features/step_definitions/user_steps.rb', /Welcome! You have signed up successfully./, "A message with a confirmation link has been sent to your email address."
-        inject_into_file 'features/users/sign_in.feature', :before => '    Scenario: User signs in successfully' do
-<<-RUBY
-  Scenario: User has not confirmed account
-    Given I exist as an unconfirmed user
-    And I am not logged in
-    When I sign in with valid credentials
-    Then I see an unconfirmed account message
-    And I should be signed out
-RUBY
-        end
-      end
-    end
-    ## CUCUMBER AND DEVISE (ADMIN APP)
-    if (prefer :authentication, 'devise') && (prefer :starter_app, 'admin_app')
-      say_wizard "copying Cucumber scenarios from the rails3-bootstrap-devise-cancan examples"
-      repo = 'https://raw.github.com/RailsApps/rails3-bootstrap-devise-cancan/master/'
-      copy_from_repo 'spec/controllers/home_controller_spec.rb', :repo => repo
-      copy_from_repo 'features/users/sign_in.feature', :repo => repo
-      copy_from_repo 'features/users/sign_out.feature', :repo => repo
-      copy_from_repo 'features/users/sign_up.feature', :repo => repo
-      copy_from_repo 'features/users/user_edit.feature', :repo => repo
-      copy_from_repo 'features/users/user_show.feature', :repo => repo
-      copy_from_repo 'features/step_definitions/user_steps.rb', :repo => repo
-      copy_from_repo 'features/support/paths.rb', :repo => repo
-      if (prefer :devise_modules, 'confirmable') || (prefer :devise_modules, 'invitable')
-        gsub_file 'features/step_definitions/user_steps.rb', /Welcome! You have signed up successfully./, "A message with a confirmation link has been sent to your email address."
-        inject_into_file 'features/users/sign_in.feature', :before => '    Scenario: User signs in successfully' do
-<<-RUBY
-  Scenario: User has not confirmed account
-    Given I exist as an unconfirmed user
-    And I am not logged in
-    When I sign in with valid credentials
-    Then I see an unconfirmed account message
-    And I should be signed out
-RUBY
-        end
-      end
-    end
-    ## CUCUMBER AND DEVISE (SUBDOMAINS APP)
-    if (prefer :authentication, 'devise') && (prefer :starter_app, 'subdomains_app')
-      say_wizard "copying RSpec files from the rails3-subdomains examples"
-      repo = 'https://raw.github.com/RailsApps/rails3-subdomains/master/'
-      copy_from_repo 'features/users/sign_in.feature', :repo => repo
-      copy_from_repo 'features/users/sign_out.feature', :repo => repo
-      copy_from_repo 'features/users/sign_up.feature', :repo => repo
-      copy_from_repo 'features/users/user_edit.feature', :repo => repo
-      copy_from_repo 'features/users/user_show.feature', :repo => repo
-      copy_from_repo 'features/step_definitions/user_steps.rb', :repo => repo
-      copy_from_repo 'features/support/paths.rb', :repo => repo
-    end
-    ## GIT
-    git :add => '-A' if prefer :git, true
-    git :commit => '-qm "rails_apps_composer: cucumber files"' if prefer :git, true
-  end
   ### FABRICATION ###
   if prefer :fixtures, 'fabrication'
     say_wizard "replacing FactoryGirl fixtures with Fabrication"
@@ -1037,8 +894,6 @@ RUBY
       gsub_file 'app/models/user.rb', /^\s*index\(\{ email: 1 \}, \{ unique: true, background: true \}\)\n/, ''
     end
   end
-  ### SUBDOMAINS ###
-  copy_from_repo 'app/models/user.rb', :repo => 'https://raw.github.com/RailsApps/rails3-subdomains/master/' if prefer :starter_app, 'subdomains_app'
   ### GIT ###
   git :add => '-A' if prefer :git, true
   git :commit => '-qm "rails_apps_composer: models"' if prefer :git, true
@@ -1064,38 +919,12 @@ after_bundler do
     copy_from_repo 'app/controllers/application_controller.rb', :repo => 'https://raw.github.com/RailsApps/rails3-mongoid-omniauth/master/'
   end
 
-  ### HOME_CONTROLLER ###
-  if ['home_app','users_app','admin_app','subdomains_app'].include? prefs[:starter_app]
-    generate(:controller, "home index")
-  end
-  if ['users_app','admin_app','subdomains_app'].include? prefs[:starter_app]
-    gsub_file 'app/controllers/home_controller.rb', /def index/, "def index\n    @users = User.all"
-  end
-  ### USERS_CONTROLLER ###
-  case prefs[:starter_app]
-    when 'users_app'
-      if prefer :authentication, 'devise'
-        copy_from_repo 'app/controllers/users_controller.rb', :repo => 'https://raw.github.com/RailsApps/rails3-devise-rspec-cucumber/master/'
-      elsif prefer :authentication, 'omniauth'
-        copy_from_repo 'app/controllers/users_controller.rb', :repo => 'https://raw.github.com/RailsApps/rails3-mongoid-omniauth/master/'
-      end
-    when 'admin_app'
-      if prefer :authentication, 'devise'
-        copy_from_repo 'app/controllers/users_controller.rb', :repo => 'https://raw.github.com/RailsApps/rails3-bootstrap-devise-cancan/master/'
-      elsif prefer :authentication, 'omniauth'
-        copy_from_repo 'app/controllers/users_controller.rb', :repo => 'https://raw.github.com/RailsApps/rails3-mongoid-omniauth/master/'
-      end
-    when 'subdomains_app'
-      copy_from_repo 'app/controllers/users_controller.rb', :repo => 'https://raw.github.com/RailsApps/rails3-subdomains/master/'
-  end
   ### SESSIONS_CONTROLLER ###
   if prefer :authentication, 'omniauth'
     filename = 'app/controllers/sessions_controller.rb'
     copy_from_repo filename, :repo => 'https://raw.github.com/RailsApps/rails3-mongoid-omniauth/master/'
     gsub_file filename, /twitter/, prefs[:omniauth_provider] unless prefer :omniauth_provider, 'twitter'
   end
-  ### PROFILES_CONTROLLER ###
-  copy_from_repo 'app/controllers/profiles_controller.rb', :repo => 'https://raw.github.com/RailsApps/rails3-subdomains/master/' if prefer :starter_app, 'subdomains_app'
   ### GIT ###
   git :add => '-A' if prefer :git, true
   git :commit => '-qm "rails_apps_composer: controllers"' if prefer :git, true
@@ -1129,65 +958,13 @@ after_bundler do
     end
   end
   ### HOME ###
-  copy_from_repo 'app/views/home/index.html.erb' if prefer :starter_app, 'users_app'
-  copy_from_repo 'app/views/home/index.html.erb' if prefer :starter_app, 'admin_app'
   copy_from_repo 'app/views/home/index-subdomains_app.html.erb', :prefs => 'subdomains_app'
   ### USERS ###
-  if ['users_app','admin_app','subdomains_app'].include? prefs[:starter_app]
-    ## INDEX
-    if prefer :starter_app, 'admin_app'
-      copy_from_repo 'app/views/users/index.html.erb', :repo => 'https://raw.github.com/RailsApps/rails3-bootstrap-devise-cancan/master/'
-    else
-      copy_from_repo 'app/views/users/index.html.erb'
-    end
-    ## SHOW
-    copy_from_repo 'app/views/users/show.html.erb'
-    copy_from_repo 'app/views/users/show-subdomains_app.html.erb', :prefs => 'subdomains_app'
-    ## EDIT
-    copy_from_repo 'app/views/users/edit-omniauth.html.erb', :prefs => 'omniauth'
-  end
   ### PROFILES ###
   copy_from_repo 'app/views/profiles/show-subdomains_app.html.erb', :prefs => 'subdomains_app'
   ### GIT ###
   git :add => '-A' if prefer :git, true
   git :commit => '-qm "rails_apps_composer: views"' if prefer :git, true
-end # after_bundler
-
-
-# >--------------------------------[ routes ]---------------------------------<
-
-@current_recipe = "routes"
-@before_configs["routes"].call if @before_configs["routes"]
-say_recipe 'routes'
-
-
-@configs[@current_recipe] = config
-
-# Application template recipe for the rails_apps_composer. Change the recipe here:
-# https://github.com/RailsApps/rails_apps_composer/blob/master/recipes/routes.rb
-
-after_bundler do
-  say_wizard "recipe running after 'bundle install'"
-  ### HOME ###
-  if prefer :starter_app, 'home_app'
-    remove_file 'public/index.html'
-    gsub_file 'config/routes.rb', /get \"home\/index\"/, 'root :to => "home#index"'
-  end
-  ### USER_ACCOUNTS ###
-  if ['users_app','admin_app'].include? prefs[:starter_app]
-    ## DEVISE
-    copy_from_repo 'config/routes.rb', :repo => 'https://raw.github.com/RailsApps/rails3-devise-rspec-cucumber/master/' if prefer :authentication, 'devise'
-    ## OMNIAUTH
-    copy_from_repo 'config/routes.rb', :repo => 'https://raw.github.com/RailsApps/rails3-mongoid-omniauth/master/' if prefer :authentication, 'omniauth'
-  end
-  ### SUBDOMAINS ###
-  copy_from_repo 'lib/subdomain.rb', :repo => 'https://raw.github.com/RailsApps/rails3-subdomains/master/' if prefer :starter_app, 'subdomains_app'
-  copy_from_repo 'config/routes.rb', :repo => 'https://raw.github.com/RailsApps/rails3-subdomains/master/' if prefer :starter_app, 'subdomains_app'
-  ### CORRECT APPLICATION NAME ###
-  gsub_file 'config/routes.rb', /^.*.routes.draw do/, "#{app_const}.routes.draw do"
-  ### GIT ###
-  git :add => '-A' if prefer :git, true
-  git :commit => '-qm "rails_apps_composer: routes"' if prefer :git, true
 end # after_bundler
 
 
@@ -1270,10 +1047,6 @@ user2 = User.create! :name => 'Second User', :email => 'user2@example.com', :pas
 puts 'New user created: ' << user2.name
 FILE
       end
-    end
-    if prefer :starter_app, 'subdomains_app'
-      gsub_file 'db/seeds.rb', /First User/, 'user1'
-      gsub_file 'db/seeds.rb', /Second User/, 'user2'
     end
     ## DEVISE-INVITABLE
     if prefer :devise_modules, 'invitable'

@@ -67,8 +67,6 @@ RUBY
       gsub_file 'app/models/user.rb', /^\s*index\(\{ email: 1 \}, \{ unique: true, background: true \}\)\n/, ''
     end
   end
-  ### SUBDOMAINS ###
-  copy_from_repo 'app/models/user.rb', :repo => 'https://raw.github.com/RailsApps/rails3-subdomains/master/' if prefer :starter_app, 'subdomains_app'
   ### GIT ###
   git :add => '-A' if prefer :git, true
   git :commit => '-qm "rails_apps_composer: models"' if prefer :git, true
@@ -77,7 +75,7 @@ end # after_bundler
 __END__
 
 name: models
-description: "Add models needed for starter apps."
+description: "Add models needed for selected preferences."
 author: RailsApps
 
 requires: [setup, gems]

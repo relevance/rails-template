@@ -16,23 +16,8 @@ after_bundler do
     end
   end
   ### HOME ###
-  copy_from_repo 'app/views/home/index.html.erb' if prefer :starter_app, 'users_app'
-  copy_from_repo 'app/views/home/index.html.erb' if prefer :starter_app, 'admin_app'
   copy_from_repo 'app/views/home/index-subdomains_app.html.erb', :prefs => 'subdomains_app'
   ### USERS ###
-  if ['users_app','admin_app','subdomains_app'].include? prefs[:starter_app]
-    ## INDEX
-    if prefer :starter_app, 'admin_app'
-      copy_from_repo 'app/views/users/index.html.erb', :repo => 'https://raw.github.com/RailsApps/rails3-bootstrap-devise-cancan/master/'
-    else
-      copy_from_repo 'app/views/users/index.html.erb'
-    end
-    ## SHOW
-    copy_from_repo 'app/views/users/show.html.erb'
-    copy_from_repo 'app/views/users/show-subdomains_app.html.erb', :prefs => 'subdomains_app'
-    ## EDIT
-    copy_from_repo 'app/views/users/edit-omniauth.html.erb', :prefs => 'omniauth'
-  end
   ### PROFILES ###
   copy_from_repo 'app/views/profiles/show-subdomains_app.html.erb', :prefs => 'subdomains_app'
   ### GIT ###
@@ -43,7 +28,7 @@ end # after_bundler
 __END__
 
 name: views
-description: "Add views needed for starter apps."
+description: "Add views needed for Devise and other gems."
 author: RailsApps
 
 requires: [setup, gems, models, controllers]

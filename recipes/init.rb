@@ -28,10 +28,6 @@ puts 'New user created: ' << user2.name
 FILE
       end
     end
-    if prefer :starter_app, 'subdomains_app'
-      gsub_file 'db/seeds.rb', /First User/, 'user1'
-      gsub_file 'db/seeds.rb', /Second User/, 'user2'
-    end
     ## DEVISE-INVITABLE
     if prefer :devise_modules, 'invitable'
       run 'bundle exec rake db:migrate'

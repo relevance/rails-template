@@ -10,5 +10,5 @@ name: core
 description: "Select all core recipes."
 author: RailsApps
 
-requires: [git, setup, readme, gems, testing, email, models, controllers, views, routes, frontend, init, extras]
+requires: [git, setup, readme, gems, testing, email, models, controllers, views, frontend, init, extras]
 category: collections
