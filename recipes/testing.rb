@@ -61,7 +61,7 @@ RUBY
       end
     end
     ## RSPEC AND DEVISE
-    if prefer :authentication, 'devise'
+    if prefer :devise, true
       # add Devise test helpers
       create_file 'spec/support/devise.rb' do
       <<-RUBY
@@ -72,36 +72,7 @@ RUBY
       end
     end
   end
-  ### CUCUMBER ###
-  if prefer :integration, 'cucumber'
-    say_wizard "recipe installing Cucumber"
-    generate "cucumber:install --capybara#{' --rspec' if prefer :unit_test, 'rspec'}#{' -D' if prefer :orm, 'mongoid'}"
-    # make it easy to run Cucumber for single features without adding "--require features" to the command line
-    gsub_file 'config/cucumber.yml', /std_opts = "/, 'std_opts = "-r features/support/ -r features/step_definitions '
-    create_file 'features/support/email_spec.rb' do <<-RUBY
-require 'email_spec/cucumber'
-RUBY
-    end
-    ## CUCUMBER AND MONGOID
-    if prefer :orm, 'mongoid'
-      gsub_file 'features/support/env.rb', /transaction/, "truncation"
-      inject_into_file 'features/support/env.rb', :after => 'begin' do
-        "\n  DatabaseCleaner.orm = 'mongoid'"
-      end
-    end
-    generate 'fabrication:cucumber_steps' if prefer :fixtures, 'fabrication'
-  end
-  ## TURNIP
-  if prefer :integration, 'turnip'
-    append_file '.rspec', '-r turnip/rspec'
-    inject_into_file 'spec/spec_helper.rb', "require 'turnip/capybara'\n", :after => "require 'rspec/rails'\n"
-    create_file 'spec/acceptance/steps/.gitkeep'
-  end
-  ## FIXTURE REPLACEMENTS
-  if prefer :fixtures, 'machinist'
-    say_wizard "generating blueprints file for 'machinist'"
-    generate 'machinist:install'
-  end
+
   ### GIT ###
   git :add => '-A' if prefer :git, true
   git :commit => '-qm "rails_apps_composer: testing framework"' if prefer :git, true
@@ -138,5 +109,5 @@ description: "Add testing framework."
 author: RailsApps
 
 requires: [setup, gems]
-run_after: [setup, gems]
+run_after: [setup, gems, authentication]
 category: testing

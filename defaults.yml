@@ -10,10 +10,11 @@ recipes:
 - views
 - frontend
 - form_builder
-- init
-- extras
+- authentication
 - admin
 - koality
+- extras
+- init
 
 prefs:
   :dev_webserver: thin

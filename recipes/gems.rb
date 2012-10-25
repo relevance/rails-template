@@ -76,19 +76,6 @@ gem 'machinist', '>= 2.0', :group => :test if prefer :fixtures, 'machinist'
 gem 'sendgrid', '>= 1.0.1' if prefer :email, 'sendgrid'
 gem 'hominid', '>= 3.0.5' if prefer :email, 'mandrill'
 
-## Authentication (Devise)
-gem 'devise', '>= 2.1.2' if prefer :authentication, 'devise'
-gem 'devise_invitable', '>= 1.0.3' if prefer :devise_modules, 'invitable'
-
-## Authentication (OmniAuth)
-gem 'omniauth', '>= 1.1.1' if prefer :authentication, 'omniauth'
-gem 'omniauth-twitter' if prefer :omniauth_provider, 'twitter'
-gem 'omniauth-facebook' if prefer :omniauth_provider, 'facebook'
-gem 'omniauth-github' if prefer :omniauth_provider, 'github'
-gem 'omniauth-linkedin' if prefer :omniauth_provider, 'linkedin'
-gem 'omniauth-google-oauth2' if prefer :omniauth_provider, 'google_oauth2'
-gem 'omniauth-tumblr' if prefer :omniauth_provider, 'tumblr'
-
 ## Gems from a defaults file or added interactively
 gems.each do |g|
   gem g
@@ -102,7 +89,6 @@ git :commit => '-qm "rails_apps_composer: Gemfile"' if prefer :git, true
 after_bundler do
   copy_from_repo 'config/database-postgresql.yml', :prefs => 'postgresql'
   copy_from_repo 'config/database-mysql.yml', :prefs => 'mysql'
-  generate 'mongoid:config' if prefer :orm, 'mongoid'
   remove_file 'config/database.yml' if prefer :orm, 'mongoid'
   if prefer :database, 'postgresql'
     begin

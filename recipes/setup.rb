@@ -57,23 +57,6 @@ else
   prefs[:email] = 'none'
 end
 
-## Authentication and Authorization
-if recipes.include? 'models'
-  prefs[:authentication] = multiple_choice "Authentication?", [["None", "none"], ["Devise", "devise"], ["OmniAuth", "omniauth"]] unless prefs.has_key? :authentication
-  case prefs[:authentication]
-    when 'devise'
-      if prefer :orm, 'mongoid'
-        prefs[:devise_modules] = multiple_choice "Devise modules?", [["Devise with default modules","default"]] unless prefs.has_key? :devise_modules
-      else
-        prefs[:devise_modules] = multiple_choice "Devise modules?", [["Devise with default modules","default"], ["Devise with Confirmable module","confirmable"],
-          ["Devise with Confirmable and Invitable modules","invitable"]] unless prefs.has_key? :devise_modules
-      end
-    when 'omniauth'
-      prefs[:omniauth_provider] = multiple_choice "OmniAuth provider?", [["Facebook", "facebook"], ["Twitter", "twitter"], ["GitHub", "github"],
-        ["LinkedIn", "linkedin"], ["Google-Oauth-2", "google_oauth2"], ["Tumblr", "tumblr"]] unless prefs.has_key? :omniauth_provider
-  end
-end
-
 # save diagnostics before anything can fail
 create_file "README", "RECIPES\n#{recipes.sort.inspect}\n"
 append_file "README", "PREFERENCES\n#{prefs.inspect}"

@@ -4,7 +4,7 @@
 after_bundler do
   say_wizard "recipe running after 'bundle install'"
   ### DEVISE ###
-  if prefer :authentication, 'devise'
+  if prefer(:devise, true)
     copy_from_repo 'app/views/devise/shared/_links.html.erb'
     if prefer(:form_builder, 'simple_form')
       copy_from_repo 'app/views/devise/registrations/edit-simple_form.html.erb', :prefs => 'simple_form'
@@ -32,5 +32,5 @@ description: "Add views needed for Devise and other gems."
 author: RailsApps
 
 requires: [setup, gems, models, controllers]
-run_after: [setup, gems, models, controllers, form_builder]
+run_after: [setup, gems, models, controllers, form_builder, authentication]
 category: mv
