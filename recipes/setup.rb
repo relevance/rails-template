@@ -11,10 +11,17 @@ say_wizard "You are using Rails version #{Rails::VERSION::STRING}."
 gemfile = File.read(destination_root() + '/Gemfile')
 sqlite_detected = gemfile.include? 'sqlite3'
 
+prefs[:heroku] = yes_wizard? "Are you deploying to Heroku?"
+
 ## Web Server
+webservers = {"Thin" => "thin", "Unicorn" => "unicorn", "Puma" => "puma"}
+unless prefs[:heroku]
+  webservers["Passenger"] = "passenger"
+end
+
 prefs[:dev_webserver] = multiple_choice "Web server for development?", [["WEBrick (default)", "webrick"],
   ["Thin", "thin"], ["Unicorn", "unicorn"], ["Puma", "puma"]] unless prefs.has_key? :dev_webserver
-webserver = multiple_choice "Web server for production?", [["Thin", "thin"], ["Unicorn", "unicorn"], ["Puma", "puma"]] unless prefs.has_key? :prod_webserver
+webserver = multiple_choice "Web server for production?", webservers.to_a unless prefs.has_key? :prod_webserver
 if webserver == 'same'
   case prefs[:dev_webserver]
     when 'thin'

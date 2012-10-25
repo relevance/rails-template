@@ -2,9 +2,7 @@
 * DONE Remove WEBRick from production web server choices
 * DONE Remove MongoDB from DB choices
 * DONE Ask about ActiveAdmin
-** TODO Do not ask about ActiveAdmin if you are not using ActiveRecord
 * TODO Port magic scrolls from Relevance-Rails
-* TODO Ask about Devise + Omniauth
 * TODO Ask about background jobs/Sidekiq?
 * TODO Ask about exception notification
 * TODO Ask about task scheduling/Whenever
@@ -12,9 +10,10 @@
 * TODO Fix diagnostics message at end of template
 
 * Setup Recipe
-** TODO Show Passenger as an option for production web server
-** TODO Ask if we are deploying to Heroku
-*** TODO Do not show Passenger as an option if we are deploying to Heroku
+** DONE Show Passenger as an option for production web server
+** DONE Ask if we are deploying to Heroku
+*** DONE Do not show Passenger as an option if we are deploying to Heroku
+*** TODO Decide what Heroku-specific things we need to do if deploying to Heroku
 ** TODO Change development DB question to just ask about application DB?
 *** TODO Remove SQLite option
 ** TODO Add Compass to front-end framework options
@@ -26,6 +25,8 @@
 ** TODO Remove starter app question
 * TODO Remove assets logger noise by default
 * TODO Look at robots.txt and possibly remove
+* TODO Rewrite RVM question and create .ruby-version file
+* TODO Remove Github repo creation
 
 * TODO Add ability to give multiple answers
 ** TODO Use this for OmniAuth providers
