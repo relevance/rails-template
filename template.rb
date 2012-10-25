@@ -251,7 +251,7 @@ else
 end
 
 ## Database Adapter
-prefs[:database] = multiple_choice "Database used in development?", [["SQLite", "sqlite"], ["PostgreSQL", "postgresql"], ["MySQL", "mysql"]] unless prefs.has_key? :database
+prefs[:database] = multiple_choice "Database used for application?", [["PostgreSQL", "postgresql"], ["MySQL", "mysql"]] unless prefs.has_key? :database
 
 ## Template Engine
 prefs[:templates] = multiple_choice "Template engine?", [["ERB", "erb"], ["Haml", "haml"], ["Slim (experimental)", "slim"]] unless prefs.has_key? :templates
@@ -265,18 +265,15 @@ if recipes.include? 'testing'
 end
 
 ## Front-end Framework
+frontend_frameworks = [
+  ["None", "none"],
+  ["Compass", "compass"]
+  ["Zurb Foundation", "foundation"],
+  ["Skeleton", "skeleton"],
+  ["Just normalize CSS for consistent styling", "normalize"]]
+
 if recipes.include? 'frontend'
-  prefs[:frontend] = multiple_choice "Front-end framework?", [["None", "none"], ["Twitter Bootstrap", "bootstrap"],
-    ["Zurb Foundation", "foundation"], ["Skeleton", "skeleton"], ["Just normalize CSS for consistent styling", "normalize"]] unless prefs.has_key? :frontend
-  if prefer :frontend, 'bootstrap'
-    case HOST_OS
-      when /mswin|windows/i
-        prefs[:bootstrap] = multiple_choice "Twitter Bootstrap version?", [["Twitter Bootstrap (Sass)", "sass"]] unless prefs.has_key? :bootstrap
-      else
-        prefs[:bootstrap] = multiple_choice "Twitter Bootstrap version?", [["Twitter Bootstrap (Less)", "less"],
-          ["Twitter Bootstrap (Sass)", "sass"]] unless prefs.has_key? :bootstrap
-    end
-  end
+  prefs[:frontend] = multiple_choice "Front-end framework?", frontend_frameworks unless prefs.has_key? :frontend
 end
 
 ## Email
@@ -439,23 +436,23 @@ say_recipe 'gems'
 ## Ruby on Rails
 insert_into_file 'Gemfile', "ruby '1.9.3'\n", :before => "gem 'rails', '3.2.6'" if prefer :deploy, 'heroku'
 
+webserver_versions = {
+  'thin' => '>= 1.5.0',
+  'unicorn' => '>= 4.3.1',
+  'puma' => '>= 1.6.3',
+  'passenger' => '>= 3.0.17'
+}
+
 ## Web Server
 if (prefs[:dev_webserver] == prefs[:prod_webserver])
-  gem 'thin', '>= 1.5.0' if prefer :dev_webserver, 'thin'
-  gem 'unicorn', '>= 4.3.1' if prefer :dev_webserver, 'unicorn'
-  gem 'puma', '>= 1.6.3' if prefer :dev_webserver, 'puma'
+  gem prefs[:dev_webserver], webserver_versions[prefs[:dev_webserver]]
 else
-  gem 'thin', '>= 1.5.0', :group => [:development, :test] if prefer :dev_webserver, 'thin'
-  gem 'unicorn', '>= 4.3.1', :group => [:development, :test] if prefer :dev_webserver, 'unicorn'
-  gem 'puma', '>= 1.6.3', :group => [:development, :test] if prefer :dev_webserver, 'puma'
-  gem 'thin', '>= 1.5.0', :group => :production if prefer :prod_webserver, 'thin'
-  gem 'unicorn', '>= 4.3.1', :group => :production if prefer :prod_webserver, 'unicorn'
-  gem 'puma', '>= 1.6.3', :group => :production if prefer :prod_webserver, 'puma'
+  gem prefs[:dev_webserver], webserver_versions[prefs[:dev_webserver]], :group => [:development, :test]
+  gem prefs[:prod_webserver], webserver_versions[prefs[:prod_webserver]], :group => :production
 end
 
 ## Database Adapter
 gsub_file 'Gemfile', /gem 'sqlite3'\n/, '' unless prefer :database, 'sqlite'
-gem 'mongoid', '>= 3.0.9' if prefer :orm, 'mongoid'
 gem 'pg', '>= 0.14.1' if prefer :database, 'postgresql'
 gem 'mysql2', '>= 0.3.11' if prefer :database, 'mysql'
 
@@ -505,15 +502,10 @@ gem 'factory_girl_rails', '>= 4.1.0', :group => [:development, :test] if prefer 
 gem 'fabrication', '>= 2.3.0', :group => [:development, :test] if prefer :fixtures, 'fabrication'
 gem 'machinist', '>= 2.0', :group => :test if prefer :fixtures, 'machinist'
 
-## Front-end Framework
-gem 'bootstrap-sass', '>= 2.1.0.0' if prefer :bootstrap, 'sass'
-gem 'compass-rails', '>= 1.0.3', :group => :assets if prefer :frontend, 'foundation'
-gem 'zurb-foundation', '>= 3.1.1', :group => :assets if prefer :frontend, 'foundation'
-if prefer :bootstrap, 'less'
-  gem 'twitter-bootstrap-rails', '>= 2.1.3', :group => :assets
-  # install gem 'therubyracer' to use Less
-  gem 'therubyracer', '>= 0.10.2', :group => :assets, :platform => :ruby
+if prefer :frontend, 'foundation' || prefer :frontend, 'compass'
+  gem 'compass-rails', '~> 1.0.3', :group => :assets
 end
+gem 'zurb-foundation', '~> 3.1.1', :group => :assets if prefer :frontend, 'foundation'
 
 ## Email
 gem 'sendgrid', '>= 1.0.1' if prefer :email, 'sendgrid'
@@ -532,7 +524,7 @@ gem 'omniauth-linkedin' if prefer :omniauth_provider, 'linkedin'
 gem 'omniauth-google-oauth2' if prefer :omniauth_provider, 'google_oauth2'
 gem 'omniauth-tumblr' if prefer :omniauth_provider, 'tumblr'
 
-## Authorization 
+## Authorization
 if prefer :authorization, 'cancan'
   gem 'cancan', '>= 1.6.8'
   gem 'rolify', '>= 3.2.0'
@@ -541,7 +533,13 @@ end
 ## Form Builder
 gem 'simple_form', '>= 2.0.4' if prefer :form_builder, 'simple_form'
 
-## Signup App 
+## Membership App
+if prefer :railsapps, 'rails-stripe-membership-saas'
+  gem 'stripe', '>= 1.7.4'
+  gem 'stripe_event', '>= 0.4.0'
+end
+
+## Signup App
 if prefer :railsapps, 'rails-prelaunch-signup'
   gem 'google_visualr', '>= 2.1.2'
   gem 'jquery-datatables-rails', '>= 1.11.1'
@@ -1284,11 +1282,10 @@ say_recipe 'frontend'
 
 after_bundler do
   say_wizard "recipe running after 'bundle install'"
+
   ### LAYOUTS ###
   copy_from_repo 'app/views/layouts/application.html.erb'
-  copy_from_repo 'app/views/layouts/application-bootstrap.html.erb', :prefs => 'bootstrap'
   copy_from_repo 'app/views/layouts/_messages.html.erb'
-  copy_from_repo 'app/views/layouts/_messages-bootstrap.html.erb', :prefs => 'bootstrap'
   copy_from_repo 'app/views/layouts/_navigation.html.erb'
   if prefer :authorization, 'cancan'
     case prefs[:authentication]
@@ -1301,26 +1298,18 @@ after_bundler do
     copy_from_repo 'app/views/layouts/_navigation-devise.html.erb', :prefs => 'devise'
     copy_from_repo 'app/views/layouts/_navigation-omniauth.html.erb', :prefs => 'omniauth'
   end
-  copy_from_repo 'app/views/layouts/_navigation-subdomains_app.html.erb', :prefs => 'subdomains_app'  
   ## APPLICATION NAME
   application_layout_file = Dir['app/views/layouts/application.html.*'].first
   navigation_partial_file = Dir['app/views/layouts/_navigation.html.*'].first
   gsub_file application_layout_file, /App_Name/, "#{app_name.humanize.titleize}"
   gsub_file navigation_partial_file, /App_Name/, "#{app_name.humanize.titleize}"
+
   ### CSS ###
-  copy_from_repo 'app/assets/stylesheets/application.css.scss'
-  copy_from_repo 'app/assets/stylesheets/application-bootstrap.css.scss', :prefs => 'bootstrap'
-  if prefer :bootstrap, 'less'
-    generate 'bootstrap:install'
-    insert_into_file 'app/assets/stylesheets/bootstrap_and_overrides.css.less', "body { padding-top: 60px; }\n", :after => "@import \"twitter/bootstrap/bootstrap\";\n"
-  elsif prefer :bootstrap, 'sass'
-    insert_into_file 'app/assets/javascripts/application.js', "//= require bootstrap\n", :after => "jquery_ujs\n"
-    create_file 'app/assets/stylesheets/bootstrap_and_overrides.css.scss', <<-RUBY
-@import "bootstrap";
-body { padding-top: 60px; }
-@import "bootstrap-responsive";
-RUBY
+  if prefer :frontend, 'compass'
+    run 'bundle exec compass init'
   elsif prefer :frontend, 'foundation'
+    copy_from_repo 'app/assets/stylesheets/application.css.scss'
+    remove_file 'app/assets/stylesheets/application.css'
     insert_into_file 'app/assets/stylesheets/application.css.scss', " *= require foundation_and_overrides\n", :after => "require_self\n"
   elsif prefer :frontend, 'skeleton'
     copy_from 'https://raw.github.com/necolas/normalize.css/master/normalize.css', 'app/assets/stylesheets/normalize.css'
@@ -1328,9 +1317,10 @@ RUBY
     copy_from 'https://raw.github.com/dhgamache/Skeleton/master/stylesheets/layout.css', 'app/assets/stylesheets/layout.css'
     copy_from 'https://raw.github.com/dhgamache/Skeleton/master/stylesheets/skeleton.css', 'app/assets/stylesheets/skeleton.css'
   elsif prefer :frontend, 'normalize'
+    copy_from_repo 'app/assets/stylesheets/application.css.scss'
+    remove_file 'app/assets/stylesheets/application.css'
     copy_from 'https://raw.github.com/necolas/normalize.css/master/normalize.css', 'app/assets/stylesheets/normalize.css'
   end
-  remove_file 'app/assets/stylesheets/application.css'
   ### GIT ###
   git :add => '-A' if prefer :git, true
   git :commit => '-qm "rails_apps_composer: front-end framework"' if prefer :git, true

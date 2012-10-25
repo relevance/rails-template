@@ -72,15 +72,10 @@ gem 'factory_girl_rails', '>= 4.1.0', :group => [:development, :test] if prefer 
 gem 'fabrication', '>= 2.3.0', :group => [:development, :test] if prefer :fixtures, 'fabrication'
 gem 'machinist', '>= 2.0', :group => :test if prefer :fixtures, 'machinist'
 
-## Front-end Framework
-gem 'bootstrap-sass', '>= 2.1.0.0' if prefer :bootstrap, 'sass'
-gem 'compass-rails', '>= 1.0.3', :group => :assets if prefer :frontend, 'foundation'
-gem 'zurb-foundation', '>= 3.1.1', :group => :assets if prefer :frontend, 'foundation'
-if prefer :bootstrap, 'less'
-  gem 'twitter-bootstrap-rails', '>= 2.1.3', :group => :assets
-  # install gem 'therubyracer' to use Less
-  gem 'therubyracer', '>= 0.10.2', :group => :assets, :platform => :ruby
+if prefer :frontend, 'foundation' || prefer :frontend, 'compass'
+  gem 'compass-rails', '~> 1.0.3', :group => :assets
 end
+gem 'zurb-foundation', '~> 3.1.1', :group => :assets if prefer :frontend, 'foundation'
 
 ## Email
 gem 'sendgrid', '>= 1.0.1' if prefer :email, 'sendgrid'

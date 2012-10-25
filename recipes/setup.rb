@@ -50,18 +50,15 @@ if recipes.include? 'testing'
 end
 
 ## Front-end Framework
+frontend_frameworks = [
+  ["None", "none"],
+  ["Compass", "compass"]
+  ["Zurb Foundation", "foundation"],
+  ["Skeleton", "skeleton"],
+  ["Just normalize CSS for consistent styling", "normalize"]]
+
 if recipes.include? 'frontend'
-  prefs[:frontend] = multiple_choice "Front-end framework?", [["None", "none"], ["Twitter Bootstrap", "bootstrap"],
-    ["Zurb Foundation", "foundation"], ["Skeleton", "skeleton"], ["Just normalize CSS for consistent styling", "normalize"]] unless prefs.has_key? :frontend
-  if prefer :frontend, 'bootstrap'
-    case HOST_OS
-      when /mswin|windows/i
-        prefs[:bootstrap] = multiple_choice "Twitter Bootstrap version?", [["Twitter Bootstrap (Sass)", "sass"]] unless prefs.has_key? :bootstrap
-      else
-        prefs[:bootstrap] = multiple_choice "Twitter Bootstrap version?", [["Twitter Bootstrap (Less)", "less"],
-          ["Twitter Bootstrap (Sass)", "sass"]] unless prefs.has_key? :bootstrap
-    end
-  end
+  prefs[:frontend] = multiple_choice "Front-end framework?", frontend_frameworks unless prefs.has_key? :frontend
 end
 
 ## Email
