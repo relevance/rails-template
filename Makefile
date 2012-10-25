@@ -7,7 +7,7 @@ clean:
 	rm -rf tempapp template.rb
 
 tempapp: clean template.rb 
-	bundle exec rails new tempapp -m template.rb
+	rails new tempapp -m template.rb
 
 template.rb: defaults.yml $(RECIPES) $(TEMPLATES)
 	bundle exec rails_apps_composer template ./template.rb -L -l ./recipes -d ./defaults.yml -t ./templates
