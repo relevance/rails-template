@@ -3,7 +3,7 @@
 
 after_everything do
   say_wizard "recipe running after everything"
-  
+
   # remove default READMEs
   %w{
     README
@@ -25,11 +25,11 @@ after_everything do
   gsub_file "README.textile", /PREFERENCES/, prefs.inspect
   gsub_file "README", /RECIPES/, recipes.sort.inspect
   gsub_file "README", /PREFERENCES/, prefs.inspect
-  
+
   # Ruby on Rails
   gsub_file "README.textile", /\* Ruby/, "* Ruby version #{RUBY_VERSION}"
   gsub_file "README.textile", /\* Rails/, "* Rails version #{Rails::VERSION::STRING}"
-    
+
   # Database
   gsub_file "README.textile", /SQLite/, "PostgreSQL" if prefer :database, 'postgresql'
   gsub_file "README.textile", /SQLite/, "MySQL" if prefer :database, 'mysql'
@@ -69,11 +69,9 @@ after_everything do
   # Authentication and Authorization
   gsub_file "README.textile", /Authentication: None/, "Authentication: Devise" if prefer :authentication, 'devise'
   gsub_file "README.textile", /Authentication: None/, "Authentication: OmniAuth" if prefer :authentication, 'omniauth'
-  gsub_file "README.textile", /Authorization: None/, "Authorization: CanCan" if prefer :authorization, 'cancan'
-
   git :add => '-A' if prefer :git, true
   git :commit => '-qm "rails_apps_composer: add README files"' if prefer :git, true
-  
+
 end # after_everything
 
 __END__

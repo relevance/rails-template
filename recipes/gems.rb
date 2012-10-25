@@ -89,12 +89,6 @@ gem 'omniauth-linkedin' if prefer :omniauth_provider, 'linkedin'
 gem 'omniauth-google-oauth2' if prefer :omniauth_provider, 'google_oauth2'
 gem 'omniauth-tumblr' if prefer :omniauth_provider, 'tumblr'
 
-## Authorization
-if prefer :authorization, 'cancan'
-  gem 'cancan', '>= 1.6.8'
-  gem 'rolify', '>= 3.2.0'
-end
-
 ## Form Builder
 gem 'simple_form', '>= 2.0.4' if prefer :form_builder, 'simple_form'
 

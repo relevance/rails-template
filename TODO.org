@@ -7,12 +7,13 @@
 *** DONE Remove SQLite option
 ** DONE Add Compass to front-end framework options
 *** DONE Remove skeleton and normalize from options
-** TODO Research the right options for email sending
-** TODO Add new option to authentication - Devise + OmniAuth
-** TODO Remove authorization question
+** DONE Remove authorization question
 ** TODO Add Formtastic to form builder gems
 ** TODO Remove starter app question
 
+** TODO Add new option to authentication - Devise + OmniAuth
+** TODO Research the right options for email sending
+   
 
 * DONE Add koality
 * DONE Remove WEBRick from production web server choices
