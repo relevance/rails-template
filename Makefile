@@ -5,7 +5,7 @@ all: template.rb
 clean:
 	rm -rf tempapp template.rb
 
-tempapp: template.rb clean
+tempapp: clean template.rb 
 	rails new tempapp -m template.rb
 
 template.rb: defaults.yml $(RECIPES)
