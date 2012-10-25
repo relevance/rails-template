@@ -1,3 +1,6 @@
+* DONE Add koality
+* DONE Remove WEBRick from production web server choices
+* DONE Remove MongoDB from DB choices
 * DONE Ask about ActiveAdmin
 ** TODO Do not ask about ActiveAdmin if you are not using ActiveRecord
 * TODO Port magic scrolls from Relevance-Rails
@@ -5,7 +8,5 @@
 * TODO Ask about background jobs/Sidekiq?
 * TODO Ask about exception notification
 * TODO Ask about task scheduling/Whenever
-* DONE Add koality
 * TODO Add Compass
 * TODO Fix diagnostics message at end of template
-* TODO Remove WEBRick from production web server choices

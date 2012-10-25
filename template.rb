@@ -29,8 +29,8 @@ Rails.application.config.generators do |g|
 end
 RUBY
 
-@recipes = ["core", "git", "railsapps", "setup", "readme", "gems", "testing", "email", "models", "controllers", "views", "routes", "frontend", "init", "prelaunch", "extras", "admin", "koality"]
-@prefs = {:railsapps=>"none", :dev_webserver=>"thin", :templates=>"haml", :unit_test=>"rspec", :integration=>"rspec-capybara", :fixtures=>"factory_girl"}
+@recipes = ["git", "setup", "readme", "gems", "testing", "email", "models", "controllers", "views", "routes", "frontend", "init", "extras", "admin", "koality"]
+@prefs = {:dev_webserver=>"thin", :templates=>"haml", :unit_test=>"rspec", :integration=>"rspec-capybara", :fixtures=>"factory_girl"}
 @gems = []
 @diagnostics_recipes = [["example"], ["setup"], ["railsapps"], ["gems", "setup"], ["gems", "readme", "setup"], ["extras", "gems", "readme", "setup"], ["example", "git"], ["git", "setup"], ["git", "railsapps"], ["gems", "git", "setup"], ["gems", "git", "readme", "setup"], ["extras", "gems", "git", "readme", "setup"], ["controllers", "email", "extras", "frontend", "gems", "git", "init", "models", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "core", "email", "extras", "frontend", "gems", "git", "init", "models", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "core", "email", "extras", "frontend", "gems", "git", "init", "models", "prelaunch", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "email", "example", "extras", "frontend", "gems", "git", "init", "models", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "email", "example", "extras", "frontend", "gems", "git", "init", "models", "prelaunch", "railsapps", "readme", "routes", "setup", "testing", "views"]]
 @diagnostics_prefs = [{:railsapps=>"rails-prelaunch-signup", :database=>"sqlite", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"bootstrap", :bootstrap=>"sass", :email=>"mandrill", :authentication=>"devise", :devise_modules=>"confirmable", :authorization=>"cancan", :starter_app=>"admin_app", :form_builder=>"simple_form"}, {:railsapps=>"rails3-bootstrap-devise-cancan", :database=>"sqlite", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"bootstrap", :bootstrap=>"sass", :email=>"gmail", :authentication=>"devise", :devise_modules=>"default", :authorization=>"cancan", :starter_app=>"admin_app", :form_builder=>"simple_form"}, {:railsapps=>"rails3-devise-rspec-cucumber", :database=>"sqlite", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"none", :email=>"gmail", :authentication=>"devise", :devise_modules=>"default", :authorization=>"none", :starter_app=>"users_app", :form_builder=>"none"}, {:railsapps=>"rails3-mongoid-devise", :database=>"mongodb", :orm=>"mongoid", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"none", :email=>"gmail", :authentication=>"devise", :devise_modules=>"default", :authorization=>"none", :starter_app=>"users_app", :form_builder=>"none"}, {:railsapps=>"rails3-mongoid-omniauth", :database=>"mongodb", :orm=>"mongoid", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"none", :email=>"none", :authentication=>"omniauth", :omniauth_provider=>"twitter", :authorization=>"none", :starter_app=>"users_app", :form_builder=>"none"}, {:railsapps=>"rails3-subdomains", :database=>"mongodb", :orm=>"mongoid", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"none", :email=>"gmail", :authentication=>"devise", :devise_modules=>"default", :authorization=>"none", :starter_app=>"subdomains_app", :form_builder=>"none"}, {:railsapps=>"none", :database=>"sqlite", :unit_test=>"rspec", :integration=>"rspec-capybara", :fixtures=>"factory_girl", :frontend=>"bootstrap", :bootstrap=>"sass", :email=>"none", :authentication=>"omniauth", :omniauth_provider=>"twitter", :authorization=>"cancan", :form_builder=>"none", :starter_app=>"admin_app"}, {:railsapps=>"none", :database=>"sqlite", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"none", :frontend=>"bootstrap", :bootstrap=>"sass", :email=>"gmail", :authentication=>"devise", :devise_modules=>"invitable", :authorization=>"cancan", :form_builder=>"simple_form", :starter_app=>"admin_app"}, {:railsapps=>"none", :database=>"sqlite", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"bootstrap", :bootstrap=>"sass", :email=>"gmail", :authentication=>"devise", :devise_modules=>"default", :authorization=>"cancan", :form_builder=>"none", :starter_app=>"admin_app"}, {:railsapps=>"none", :database=>"sqlite", :unit_test=>"test_unit", :integration=>"none", :fixtures=>"none", :frontend=>"bootstrap", :bootstrap=>"less", :email=>"sendgrid", :authentication=>"devise", :devise_modules=>"confirmable", :authorization=>"cancan", :form_builder=>"none", :starter_app=>"admin_app"}]
@@ -181,22 +181,6 @@ end
 # >---------------------------------[ Recipes ]----------------------------------<
 
 
-# >---------------------------------[ core ]----------------------------------<
-
-@current_recipe = "core"
-@before_configs["core"].call if @before_configs["core"]
-say_recipe 'core'
-
-
-@configs[@current_recipe] = config
-
-# Application template recipe for the rails_apps_composer. Change the recipe here:
-# https://github.com/RailsApps/rails_apps_composer/blob/master/recipes/core.rb
-
-## Git
-say_wizard "selected all core recipes"
-
-
 # >----------------------------------[ git ]----------------------------------<
 
 @current_recipe = "git"
@@ -217,141 +201,6 @@ if prefer :git, true
   git :init
   git :add => '-A'
   git :commit => '-qm "rails_apps_composer: initial commit"'
-end
-
-
-# >-------------------------------[ railsapps ]-------------------------------<
-
-@current_recipe = "railsapps"
-@before_configs["railsapps"].call if @before_configs["railsapps"]
-say_recipe 'railsapps'
-
-
-@configs[@current_recipe] = config
-
-# Application template recipe for the rails_apps_composer. Change the recipe here:
-# https://github.com/RailsApps/rails_apps_composer/blob/master/recipes/railsapps.rb
-
-prefs[:railsapps] = multiple_choice "Install an example application?", 
-  [["I want to build my own application", "none"], 
-  ["rails3-bootstrap-devise-cancan", "rails3-bootstrap-devise-cancan"], 
-  ["rails3-devise-rspec-cucumber", "rails3-devise-rspec-cucumber"], 
-  ["rails3-mongoid-devise", "rails3-mongoid-devise"],
-  ["rails3-mongoid-omniauth", "rails3-mongoid-omniauth"],
-  ["rails3-subdomains", "rails3-subdomains"]] unless prefs.has_key? :railsapps
-
-case prefs[:railsapps]
-  when 'rails-prelaunch-signup'
-    prefs[:git] = true
-    prefs[:database] = 'sqlite'
-    prefs[:unit_test] = 'rspec'
-    prefs[:integration] = 'cucumber'
-    prefs[:fixtures] = 'factory_girl'
-    prefs[:frontend] = 'bootstrap'
-    prefs[:bootstrap] = 'sass'
-    prefs[:email] = 'mandrill'
-    prefs[:authentication] = 'devise'
-    prefs[:devise_modules] = 'confirmable'
-    prefs[:authorization] = 'cancan'
-    prefs[:starter_app] = 'admin_app'
-    prefs[:form_builder] = 'simple_form'
-    prefs[:quiet_assets] = true
-    if prefer :git, true
-      prefs[:prelaunch_branch] = multiple_choice "Git branch for the prelaunch app?", [["wip (work-in-progress)", "wip"], ["master", "master"], ["prelaunch", "prelaunch"], ["staging", "staging"]]
-      if prefs[:prelaunch_branch] == 'master'
-        prefs[:main_branch] = multiple_choice "Git branch for the main app?", [["None", "none"], ["wip (work-in-progress)", "wip"], ["edge", "edge"]]
-      else
-        prefs[:main_branch] = 'master'
-      end
-    end
-  when 'rails3-bootstrap-devise-cancan'
-    prefs[:git] = true
-    prefs[:database] = 'sqlite'
-    prefs[:unit_test] = 'rspec'
-    prefs[:integration] = 'cucumber'
-    prefs[:fixtures] = 'factory_girl'
-    prefs[:frontend] = 'bootstrap'
-    prefs[:bootstrap] = 'sass'
-    prefs[:email] = 'gmail'
-    prefs[:authentication] = 'devise'
-    prefs[:devise_modules] = 'default'
-    prefs[:authorization] = 'cancan'
-    prefs[:starter_app] = 'admin_app'
-    prefs[:form_builder] = 'simple_form'
-    prefs[:quiet_assets] = true
-  when 'rails3-devise-rspec-cucumber'
-    prefs[:git] = true
-    prefs[:database] = 'sqlite'
-    prefs[:unit_test] = 'rspec'
-    prefs[:integration] = 'cucumber'
-    prefs[:fixtures] = 'factory_girl'
-    prefs[:frontend] = 'none'
-    prefs[:email] = 'gmail'
-    prefs[:authentication] = 'devise'
-    prefs[:devise_modules] = 'default'
-    prefs[:authorization] = 'none'
-    prefs[:starter_app] = 'users_app'
-    prefs[:form_builder] = 'none'
-    prefs[:quiet_assets] = true
-  when 'rails3-devise-rspec-cucumber-fabrication'
-    prefs[:git] = true
-    prefs[:database] = 'sqlite'
-    prefs[:unit_test] = 'rspec'
-    prefs[:integration] = 'cucumber'
-    prefs[:fixtures] = 'fabrication'
-    prefs[:frontend] = 'none'
-    prefs[:email] = 'gmail'
-    prefs[:authentication] = 'devise'
-    prefs[:devise_modules] = 'default'
-    prefs[:authorization] = 'none'
-    prefs[:starter_app] = 'users_app'
-    prefs[:form_builder] = 'none'
-    prefs[:quiet_assets] = true
-  when 'rails3-mongoid-devise'
-    prefs[:git] = true
-    prefs[:database] = 'mongodb'
-    prefs[:orm] = 'mongoid'
-    prefs[:unit_test] = 'rspec'
-    prefs[:integration] = 'cucumber'
-    prefs[:fixtures] = 'factory_girl'
-    prefs[:frontend] = 'none'
-    prefs[:email] = 'gmail'
-    prefs[:authentication] = 'devise'
-    prefs[:devise_modules] = 'default'
-    prefs[:authorization] = 'none'
-    prefs[:starter_app] = 'users_app'
-    prefs[:form_builder] = 'none'
-    prefs[:quiet_assets] = true
-  when 'rails3-mongoid-omniauth'
-    prefs[:git] = true
-    prefs[:database] = 'mongodb'
-    prefs[:orm] = 'mongoid'
-    prefs[:unit_test] = 'rspec'
-    prefs[:integration] = 'cucumber'
-    prefs[:fixtures] = 'factory_girl'
-    prefs[:frontend] = 'none'
-    prefs[:email] = 'none'
-    prefs[:authentication] = 'omniauth'
-    prefs[:omniauth_provider] = 'twitter'
-    prefs[:authorization] = 'none'
-    prefs[:starter_app] = 'users_app'
-    prefs[:form_builder] = 'none'
-    prefs[:quiet_assets] = true
-  when 'rails3-subdomains'
-    prefs[:git] = true
-    prefs[:database] = 'mongodb'
-    prefs[:orm] = 'mongoid'
-    prefs[:unit_test] = 'rspec'
-    prefs[:integration] = 'cucumber'
-    prefs[:fixtures] = 'factory_girl'
-    prefs[:frontend] = 'none'
-    prefs[:email] = 'gmail'
-    prefs[:authentication] = 'devise'
-    prefs[:devise_modules] = 'default'
-    prefs[:authorization] = 'none'
-    prefs[:starter_app] = 'subdomains_app'
-    prefs[:form_builder] = 'none'
-    prefs[:quiet_assets] = true
 end
 
 
@@ -378,10 +227,9 @@ gemfile = File.read(destination_root() + '/Gemfile')
 sqlite_detected = gemfile.include? 'sqlite3'
 
 ## Web Server
-prefs[:dev_webserver] = multiple_choice "Web server for development?", [["WEBrick (default)", "webrick"], 
+prefs[:dev_webserver] = multiple_choice "Web server for development?", [["WEBrick (default)", "webrick"],
   ["Thin", "thin"], ["Unicorn", "unicorn"], ["Puma", "puma"]] unless prefs.has_key? :dev_webserver
-webserver = multiple_choice "Web server for production?", [["Same as development", "same"], 
-  ["Thin", "thin"], ["Unicorn", "unicorn"], ["Puma", "puma"]] unless prefs.has_key? :prod_webserver
+webserver = multiple_choice "Web server for production?", [["Thin", "thin"], ["Unicorn", "unicorn"], ["Puma", "puma"]] unless prefs.has_key? :prod_webserver
 if webserver == 'same'
   case prefs[:dev_webserver]
     when 'thin'
@@ -396,23 +244,7 @@ else
 end
 
 ## Database Adapter
-prefs[:database] = multiple_choice "Database used in development?", [["SQLite", "sqlite"], ["PostgreSQL", "postgresql"], 
-  ["MySQL", "mysql"], ["MongoDB", "mongodb"]] unless prefs.has_key? :database
-case prefs[:database]
-  when 'mongodb'
-    unless sqlite_detected
-      prefs[:orm] = multiple_choice "How will you connect to MongoDB?", [["Mongoid","mongoid"]] unless prefs.has_key? :orm
-    else
-      say_wizard "WARNING! SQLite gem detected in the Gemfile"
-      say_wizard "If you wish to use MongoDB you must skip Active Record."
-      say_wizard "If using rails_apps_composer, choose 'skip Active Record'."
-      say_wizard "If using Rails Composer or an application template, use the '-O' flag as in 'rails new foo -O'."
-      prefs[:fail] = multiple_choice "Abort or continue?", [["abort", "abort"], ["continue", "continue"]]
-      if prefer :fail, 'abort'
-        raise StandardError.new "SQLite detected in the Gemfile. Use '-O' or '--skip-activerecord' as in 'rails new foo -O' if you don't want ActiveRecord and SQLite"
-      end
-    end
-end
+prefs[:database] = multiple_choice "Database used in development?", [["SQLite", "sqlite"], ["PostgreSQL", "postgresql"], ["MySQL", "mysql"]] unless prefs.has_key? :database
 
 ## Template Engine
 prefs[:templates] = multiple_choice "Template engine?", [["ERB", "erb"], ["Haml", "haml"], ["Slim (experimental)", "slim"]] unless prefs.has_key? :templates
@@ -420,14 +252,14 @@ prefs[:templates] = multiple_choice "Template engine?", [["ERB", "erb"], ["Haml"
 ## Testing Framework
 if recipes.include? 'testing'
   prefs[:unit_test] = multiple_choice "Unit testing?", [["Test::Unit", "test_unit"], ["RSpec", "rspec"], ["MiniTest", "minitest"]] unless prefs.has_key? :unit_test
-  prefs[:integration] = multiple_choice "Integration testing?", [["None", "none"], ["RSpec with Capybara", "rspec-capybara"], 
+  prefs[:integration] = multiple_choice "Integration testing?", [["None", "none"], ["RSpec with Capybara", "rspec-capybara"],
     ["Cucumber with Capybara", "cucumber"], ["Turnip with Capybara", "turnip"], ["MiniTest with Capybara", "minitest-capybara"]] unless prefs.has_key? :integration
   prefs[:fixtures] = multiple_choice "Fixture replacement?", [["None","none"], ["Factory Girl","factory_girl"], ["Machinist","machinist"], ["Fabrication","fabrication"]] unless prefs.has_key? :fixtures
 end
 
 ## Front-end Framework
 if recipes.include? 'frontend'
-  prefs[:frontend] = multiple_choice "Front-end framework?", [["None", "none"], ["Twitter Bootstrap", "bootstrap"], 
+  prefs[:frontend] = multiple_choice "Front-end framework?", [["None", "none"], ["Twitter Bootstrap", "bootstrap"],
     ["Zurb Foundation", "foundation"], ["Skeleton", "skeleton"], ["Just normalize CSS for consistent styling", "normalize"]] unless prefs.has_key? :frontend
   if prefer :frontend, 'bootstrap'
     case HOST_OS
@@ -442,7 +274,7 @@ end
 
 ## Email
 if recipes.include? 'email'
-  prefs[:email] = multiple_choice "Add support for sending email?", [["None", "none"], ["Gmail","gmail"], ["SMTP","smtp"], 
+  prefs[:email] = multiple_choice "Add support for sending email?", [["None", "none"], ["Gmail","gmail"], ["SMTP","smtp"],
     ["SendGrid","sendgrid"], ["Mandrill","mandrill"]] unless prefs.has_key? :email
 else
   prefs[:email] = 'none'
@@ -456,11 +288,11 @@ if recipes.include? 'models'
       if prefer :orm, 'mongoid'
         prefs[:devise_modules] = multiple_choice "Devise modules?", [["Devise with default modules","default"]] unless prefs.has_key? :devise_modules
       else
-        prefs[:devise_modules] = multiple_choice "Devise modules?", [["Devise with default modules","default"], ["Devise with Confirmable module","confirmable"], 
+        prefs[:devise_modules] = multiple_choice "Devise modules?", [["Devise with default modules","default"], ["Devise with Confirmable module","confirmable"],
           ["Devise with Confirmable and Invitable modules","invitable"]] unless prefs.has_key? :devise_modules
       end
     when 'omniauth'
-      prefs[:omniauth_provider] = multiple_choice "OmniAuth provider?", [["Facebook", "facebook"], ["Twitter", "twitter"], ["GitHub", "github"], 
+      prefs[:omniauth_provider] = multiple_choice "OmniAuth provider?", [["Facebook", "facebook"], ["Twitter", "twitter"], ["GitHub", "github"],
         ["LinkedIn", "linkedin"], ["Google-Oauth-2", "google_oauth2"], ["Tumblr", "tumblr"]] unless prefs.has_key? :omniauth_provider
   end
   prefs[:authorization] = multiple_choice "Authorization?", [["None", "none"], ["CanCan with Rolify", "cancan"]] unless prefs.has_key? :authorization
@@ -472,18 +304,18 @@ prefs[:form_builder] = multiple_choice "Use a form builder gem?", [["None", "non
 ## MVC
 if (recipes.include? 'models') && (recipes.include? 'controllers') && (recipes.include? 'views') && (recipes.include? 'routes')
   if prefer :authorization, 'cancan'
-    prefs[:starter_app] = multiple_choice "Install a starter app?", [["None", "none"], ["Home Page", "home_app"], 
+    prefs[:starter_app] = multiple_choice "Install a starter app?", [["None", "none"], ["Home Page", "home_app"],
       ["Home Page, User Accounts", "users_app"], ["Home Page, User Accounts, Admin Dashboard", "admin_app"]] unless prefs.has_key? :starter_app
   elsif prefer :authentication, 'devise'
     if prefer :orm, 'mongoid'
-      prefs[:starter_app] = multiple_choice "Install a starter app?", [["None", "none"], ["Home Page", "home_app"], 
+      prefs[:starter_app] = multiple_choice "Install a starter app?", [["None", "none"], ["Home Page", "home_app"],
         ["Home Page, User Accounts", "users_app"], ["Home Page, User Accounts, Subdomains", "subdomains_app"]] unless prefs.has_key? :starter_app
     else
-      prefs[:starter_app] = multiple_choice "Install a starter app?", [["None", "none"], ["Home Page", "home_app"], 
+      prefs[:starter_app] = multiple_choice "Install a starter app?", [["None", "none"], ["Home Page", "home_app"],
         ["Home Page, User Accounts", "users_app"]] unless prefs.has_key? :starter_app
     end
   elsif prefer :authentication, 'omniauth'
-    prefs[:starter_app] = multiple_choice "Install a starter app?", [["None", "none"], ["Home Page", "home_app"], 
+    prefs[:starter_app] = multiple_choice "Install a starter app?", [["None", "none"], ["Home Page", "home_app"],
       ["Home Page, User Accounts", "users_app"]] unless prefs.has_key? :starter_app
   else
     prefs[:starter_app] = multiple_choice "Install a starter app?", [["None", "none"], ["Home Page", "home_app"]] unless prefs.has_key? :starter_app
@@ -1585,127 +1417,6 @@ FILE
   git :add => '-A' if prefer :git, true
   git :commit => '-qm "rails_apps_composer: set up database"' if prefer :git, true
 end # after_everything
-
-
-# >-------------------------------[ prelaunch ]-------------------------------<
-
-@current_recipe = "prelaunch"
-@before_configs["prelaunch"].call if @before_configs["prelaunch"]
-say_recipe 'prelaunch'
-
-
-@configs[@current_recipe] = config
-
-# Application template recipe for the rails_apps_composer. Change the recipe here:
-# https://github.com/RailsApps/rails_apps_composer/blob/master/recipes/prelaunch.rb
-
-if prefer :railsapps, 'rails-prelaunch-signup'
-  
-  after_everything do
-    say_wizard "recipe running after 'bundle install'"
-    repo = 'https://raw.github.com/RailsApps/rails-prelaunch-signup/master/'
-
-    # >-------------------------------[ Clean up starter app ]--------------------------------<
-
-    %w{
-      public/index.html
-      app/assets/images/rails.png
-    }.each { |file| remove_file file }
-    # remove commented lines and multiple blank lines from Gemfile
-    # thanks to https://github.com/perfectline/template-bucket/blob/master/cleanup.rb
-    gsub_file 'Gemfile', /#.*\n/, "\n"
-    gsub_file 'Gemfile', /\n^\s*\n/, "\n"
-    # remove commented lines and multiple blank lines from config/routes.rb
-    gsub_file 'config/routes.rb', /  #.*\n/, "\n"
-    gsub_file 'config/routes.rb', /\n^\s*\n/, "\n"
-    # GIT
-    git :add => '-A' if prefer :git, true
-    git :commit => '-qm "rails_apps_composer: clean up starter app"' if prefer :git, true
-
-    # >-------------------------------[ Create a git branch ]--------------------------------<
-    if prefer :git, true
-      if prefer :prelaunch_branch, 'master'
-        unless prefer :main_branch, 'none'
-          say_wizard "renaming git branch 'master' to '#{prefs[:main_branch]}' for starter app"
-          git :branch => "-m master #{prefs[:main_branch]}"
-          git :checkout => "-b master"
-        else
-          say_wizard "creating prelaunch app on git branch 'master'"
-        end
-      else
-        say_wizard "creating new git branch '#{prefs[:prelaunch_branch]}' for prelaunch app"
-        git :checkout => "-b #{prefs[:prelaunch_branch]}"
-      end
-    end
-
-    # >-------------------------------[ Cucumber ]--------------------------------<
-    say_wizard "copying Cucumber scenarios from the rails-prelaunch-signup examples"
-    copy_from_repo 'features/admin/send_invitations.feature', :repo => repo    
-    copy_from_repo 'features/admin/view_progress.feature', :repo => repo
-    copy_from_repo 'features/visitors/request_invitation.feature', :repo => repo
-    copy_from_repo 'features/users/sign_in.feature', :repo => repo
-    copy_from_repo 'features/users/sign_up.feature', :repo => repo
-    copy_from_repo 'features/users/user_show.feature', :repo => repo
-    copy_from_repo 'features/step_definitions/admin_steps.rb', :repo => repo
-    copy_from_repo 'features/step_definitions/user_steps.rb', :repo => repo    
-    copy_from_repo 'features/step_definitions/visitor_steps.rb', :repo => repo
-    copy_from_repo 'config/locales/devise.en.yml', :repo => repo
-
-    # >-------------------------------[ Migrations ]--------------------------------<
-
-    generate 'migration AddOptinToUsers opt_in:boolean'
-    run 'bundle exec rake db:drop'
-    run 'bundle exec rake db:migrate'
-    run 'bundle exec rake db:test:prepare'
-    run 'bundle exec rake db:seed'
-
-    # >-------------------------------[ Models ]--------------------------------<
-
-    copy_from_repo 'app/models/user.rb', :repo => repo
-
-    # >-------------------------------[ Controllers ]--------------------------------<
-
-    copy_from_repo 'app/controllers/confirmations_controller.rb', :repo => repo
-    copy_from_repo 'app/controllers/home_controller.rb', :repo => repo
-    copy_from_repo 'app/controllers/registrations_controller.rb', :repo => repo
-    copy_from_repo 'app/controllers/users_controller.rb', :repo => repo
-
-    # >-------------------------------[ Mailers ]--------------------------------<
-    
-    generate 'mailer UserMailer'
-    copy_from_repo 'spec/mailers/user_mailer_spec.rb', :repo => repo
-    copy_from_repo 'app/mailers/user_mailer.rb', :repo => repo
-
-    # >-------------------------------[ Views ]--------------------------------<
-
-    copy_from_repo 'app/views/devise/confirmations/show.html.erb', :repo => repo
-    copy_from_repo 'app/views/devise/mailer/confirmation_instructions.html.erb', :repo => repo
-    copy_from_repo 'app/views/devise/registrations/_thankyou.html.erb', :repo => repo
-    copy_from_repo 'app/views/devise/registrations/new.html.erb', :repo => repo
-    copy_from_repo 'app/views/devise/shared/_links.html.erb', :repo => repo
-    copy_from_repo 'app/views/home/index.html.erb', :repo => repo
-    copy_from_repo 'app/views/user_mailer/welcome_email.html.erb', :repo => repo
-    copy_from_repo 'app/views/user_mailer/welcome_email.text.erb', :repo => repo
-    copy_from_repo 'app/views/users/index.html.erb', :repo => repo
-    copy_from_repo 'public/thankyou.html', :repo => repo
-
-    # >-------------------------------[ Routes ]--------------------------------<
-    
-    copy_from_repo 'config/routes.rb', :repo => repo
-    ### CORRECT APPLICATION NAME ###
-    gsub_file 'config/routes.rb', /^.*.routes.draw do/, "#{app_const}.routes.draw do"
-    
-    # >-------------------------------[ Assets ]--------------------------------<
-    
-    copy_from_repo 'app/assets/javascripts/application.js', :repo => repo
-    copy_from_repo 'app/assets/javascripts/users.js.coffee', :repo => repo
-    copy_from_repo 'app/assets/stylesheets/application.css.scss', :repo => repo
-    
-    ### GIT ###
-    git :add => '-A' if prefer :git, true
-    git :commit => '-qm "rails_apps_composer: prelaunch app"' if prefer :git, true
-  end # after_bundler
-end # rails-prelaunch-signup
 
 
 # >--------------------------------[ extras ]---------------------------------<

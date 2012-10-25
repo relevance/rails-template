@@ -1,10 +1,21 @@
 recipes:
-- core
+- git
+- setup
+- readme
+- gems
+- testing
+- email
+- models
+- controllers
+- views
+- routes
+- frontend
+- init
+- extras
 - admin
 - koality
 
 prefs:
-  :railsapps: none
   :dev_webserver: thin
   :templates: haml
   :unit_test: rspec

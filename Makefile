@@ -3,7 +3,7 @@ RECIPES=$(wildcard recipes/*.rb)
 all: template.rb
 
 clean:
-	rm -rf tempapp
+	rm -rf tempapp template.rb
 
 tempapp: template.rb clean
 	rails new tempapp -m template.rb
