@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/crnixon/rails_apps_composer.git
-  revision: 3eec00384de505194da0f57a01cfa0f0db623bc8
+  revision: ca69c30310a79af56ef6e7a982e4a8a11de6ca12
   specs:
     rails_apps_composer (2.2.16)
       activesupport (>= 3.0.0)

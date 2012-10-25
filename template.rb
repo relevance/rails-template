@@ -533,18 +533,6 @@ end
 ## Form Builder
 gem 'simple_form', '>= 2.0.4' if prefer :form_builder, 'simple_form'
 
-## Membership App
-if prefer :railsapps, 'rails-stripe-membership-saas'
-  gem 'stripe', '>= 1.7.4'
-  gem 'stripe_event', '>= 0.4.0'
-end
-
-## Signup App
-if prefer :railsapps, 'rails-prelaunch-signup'
-  gem 'google_visualr', '>= 2.1.2'
-  gem 'jquery-datatables-rails', '>= 1.11.1'
-end
-
 ## Gems from a defaults file or added interactively
 gems.each do |g|
   gem g
@@ -1211,9 +1199,6 @@ after_bundler do
     ## INDEX
     if prefer :starter_app, 'admin_app'
       copy_from_repo 'app/views/users/index.html.erb', :repo => 'https://raw.github.com/RailsApps/rails3-bootstrap-devise-cancan/master/'
-      unless prefer :railsapps, 'rails-prelaunch-signup' 
-        copy_from_repo 'app/views/users/_user.html.erb', :repo => 'https://raw.github.com/RailsApps/rails3-bootstrap-devise-cancan/master/'
-      end
     else
       copy_from_repo 'app/views/users/index.html.erb'
     end
@@ -1343,17 +1328,17 @@ after_everything do
   say_wizard "recipe running after everything"
   ### PREPARE SEED ###
   if prefer :authentication, 'devise'
-    if (prefer :authorization, 'cancan') && !(prefer :railsapps, 'rails-prelaunch-signup')
+    if (prefer :authorization, 'cancan')
       append_file 'db/seeds.rb' do <<-FILE
 puts 'CREATING ROLES'
 Role.create([
-  { :name => 'admin' }, 
-  { :name => 'user' }, 
+  { :name => 'admin' },
+  { :name => 'user' },
   { :name => 'VIP' }
 ], :without_protection => true)
 FILE
       end
-    end    
+    end
     if (prefer :devise_modules, 'confirmable') || (prefer :devise_modules, 'invitable')
       ## DEVISE-CONFIRMABLE
       append_file 'db/seeds.rb' do <<-FILE
@@ -1388,14 +1373,11 @@ user2.add_role :VIP
 FILE
       end
     end
-    if prefer :railsapps, 'rails-prelaunch-signup'
-      gsub_file 'db/seeds.rb', /user2.add_role :VIP/, ''
-    end
     ## DEVISE-INVITABLE
     if prefer :devise_modules, 'invitable'
       run 'bundle exec rake db:migrate'
       generate 'devise_invitable user'
-    end    
+    end
   end
   ### APPLY SEED ###
   unless prefer :orm, 'mongoid'
@@ -1539,17 +1521,12 @@ if prefs[:github]
   after_everything do
     say_wizard "recipe creating GitHub repository"
     git_uri = `git config remote.origin.url`.strip
-    unless git_uri.size == 0
+    if git_uri.size > 0
       say_wizard "Repository already exists:"
       say_wizard "#{git_uri}"
     else
       run "hub create #{app_name}"
-      unless prefer :railsapps, 'rails-prelaunch-signup'
-        run "hub push -u origin master"
-      else
-        run "hub push -u origin #{prefs[:prelaunch_branch]}"
-        run "hub push -u origin #{prefs[:main_branch]}" unless prefer :main_branch, 'none'
-      end
+      run "hub push -u origin master"
     end
   end
 end

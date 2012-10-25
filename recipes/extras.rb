@@ -108,17 +108,12 @@ if prefs[:github]
   after_everything do
     say_wizard "recipe creating GitHub repository"
     git_uri = `git config remote.origin.url`.strip
-    unless git_uri.size == 0
+    if git_uri.size > 0
       say_wizard "Repository already exists:"
       say_wizard "#{git_uri}"
     else
       run "hub create #{app_name}"
-      unless prefer :railsapps, 'rails-prelaunch-signup'
-        run "hub push -u origin master"
-      else
-        run "hub push -u origin #{prefs[:prelaunch_branch]}"
-        run "hub push -u origin #{prefs[:main_branch]}" unless prefer :main_branch, 'none'
-      end
+      run "hub push -u origin master"
     end
   end
 end

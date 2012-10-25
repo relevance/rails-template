@@ -10,4 +10,4 @@ tempapp: clean template.rb
 	bundle exec rails new tempapp -m template.rb
 
 template.rb: defaults.yml $(RECIPES) $(TEMPLATES)
-	bundle exec rails_apps_composer template ./template.rb -l ./recipes -d ./defaults.yml -t ./templates
+	bundle exec rails_apps_composer template ./template.rb -L -l ./recipes -d ./defaults.yml -t ./templates
