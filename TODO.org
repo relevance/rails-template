@@ -10,3 +10,24 @@
 * TODO Ask about task scheduling/Whenever
 * TODO Add Compass
 * TODO Fix diagnostics message at end of template
+
+* Setup Recipe
+** TODO Show Passenger as an option for production web server
+** TODO Ask if we are deploying to Heroku
+*** TODO Do not show Passenger as an option if we are deploying to Heroku
+** TODO Change development DB question to just ask about application DB?
+*** TODO Remove SQLite option
+** TODO Add Compass to front-end framework options
+*** TODO Remove skeleton and normalize from options
+** TODO Research the right options for email sending
+** TODO Add new option to authentication - Devise + OmniAuth
+** TODO Remove authorization question
+** TODO Add Formtastic to form builder gems
+** TODO Remove starter app question
+* TODO Remove assets logger noise by default
+* TODO Look at robots.txt and possibly remove
+
+* TODO Add ability to give multiple answers
+** TODO Use this for OmniAuth providers
+
+* TODO Change color scheme for questions!
