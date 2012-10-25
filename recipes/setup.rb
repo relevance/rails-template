@@ -36,7 +36,7 @@ else
 end
 
 ## Database Adapter
-prefs[:database] = multiple_choice "Database used in development?", [["SQLite", "sqlite"], ["PostgreSQL", "postgresql"], ["MySQL", "mysql"]] unless prefs.has_key? :database
+prefs[:database] = multiple_choice "Database used for application?", [["PostgreSQL", "postgresql"], ["MySQL", "mysql"]] unless prefs.has_key? :database
 
 ## Template Engine
 prefs[:templates] = multiple_choice "Template engine?", [["ERB", "erb"], ["Haml", "haml"], ["Slim (experimental)", "slim"]] unless prefs.has_key? :templates
