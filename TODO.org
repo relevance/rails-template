@@ -1,14 +1,3 @@
-* DONE Add koality
-* DONE Remove WEBRick from production web server choices
-* DONE Remove MongoDB from DB choices
-* DONE Ask about ActiveAdmin
-* TODO Port magic scrolls from Relevance-Rails
-* TODO Ask about background jobs/Sidekiq?
-* TODO Ask about exception notification
-* TODO Ask about task scheduling/Whenever
-* TODO Add Compass
-* TODO Fix diagnostics message at end of template
-
 * Setup Recipe
 ** DONE Show Passenger as an option for production web server
 ** DONE Ask if we are deploying to Heroku
@@ -23,6 +12,19 @@
 ** TODO Remove authorization question
 ** TODO Add Formtastic to form builder gems
 ** TODO Remove starter app question
+
+
+* DONE Add koality
+* DONE Remove WEBRick from production web server choices
+* DONE Remove MongoDB from DB choices
+* DONE Ask about ActiveAdmin
+* TODO Port magic scrolls from Relevance-Rails
+* TODO Ask about background jobs/Sidekiq?
+* TODO Ask about exception notification
+* TODO Ask about task scheduling/Whenever
+* TODO Add Compass
+* TODO Fix diagnostics message at end of template
+
 * TODO Remove assets logger noise by default
 * TODO Look at robots.txt and possibly remove
 * TODO Rewrite RVM question and create .ruby-version file
