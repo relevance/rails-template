@@ -74,9 +74,6 @@ if recipes.include? 'models'
   end
 end
 
-## Form Builder
-prefs[:form_builder] = multiple_choice "Use a form builder gem?", [["None", "none"], ["SimpleForm", "simple_form"]] unless prefs.has_key? :form_builder
-
 # save diagnostics before anything can fail
 create_file "README", "RECIPES\n#{recipes.sort.inspect}\n"
 append_file "README", "PREFERENCES\n#{prefs.inspect}"

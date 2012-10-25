@@ -29,7 +29,7 @@ Rails.application.config.generators do |g|
 end
 RUBY
 
-@recipes = ["git", "setup", "readme", "gems", "testing", "email", "models", "controllers", "views", "frontend", "init", "extras", "admin", "koality"]
+@recipes = ["git", "setup", "readme", "gems", "testing", "email", "models", "controllers", "frontend", "form_builder", "init", "extras", "admin", "koality", "views"]
 @prefs = {:dev_webserver=>"thin", :templates=>"haml", :unit_test=>"rspec", :integration=>"rspec-capybara", :fixtures=>"factory_girl"}
 @gems = []
 @diagnostics_recipes = [["example"], ["setup"], ["railsapps"], ["gems", "setup"], ["gems", "readme", "setup"], ["extras", "gems", "readme", "setup"], ["example", "git"], ["git", "setup"], ["git", "railsapps"], ["gems", "git", "setup"], ["gems", "git", "readme", "setup"], ["extras", "gems", "git", "readme", "setup"], ["controllers", "email", "extras", "frontend", "gems", "git", "init", "models", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "core", "email", "extras", "frontend", "gems", "git", "init", "models", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "core", "email", "extras", "frontend", "gems", "git", "init", "models", "prelaunch", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "core", "email", "extras", "frontend", "gems", "git", "init", "models", "prelaunch", "railsapps", "readme", "routes", "saas", "setup", "testing", "views"], ["controllers", "email", "example", "extras", "frontend", "gems", "git", "init", "models", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "email", "example", "extras", "frontend", "gems", "git", "init", "models", "prelaunch", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "email", "example", "extras", "frontend", "gems", "git", "init", "models", "prelaunch", "railsapps", "readme", "routes", "saas", "setup", "testing", "views"]]
@@ -289,9 +289,6 @@ if recipes.include? 'models'
   end
 end
 
-## Form Builder
-prefs[:form_builder] = multiple_choice "Use a form builder gem?", [["None", "none"], ["SimpleForm", "simple_form"]] unless prefs.has_key? :form_builder
-
 # save diagnostics before anything can fail
 create_file "README", "RECIPES\n#{recipes.sort.inspect}\n"
 append_file "README", "PREFERENCES\n#{prefs.inspect}"
@@ -337,49 +334,6 @@ after_everything do
   # Ruby on Rails
   gsub_file "README.textile", /\* Ruby/, "* Ruby version #{RUBY_VERSION}"
   gsub_file "README.textile", /\* Rails/, "* Rails version #{Rails::VERSION::STRING}"
-
-  # Database
-  gsub_file "README.textile", /SQLite/, "PostgreSQL" if prefer :database, 'postgresql'
-  gsub_file "README.textile", /SQLite/, "MySQL" if prefer :database, 'mysql'
-  gsub_file "README.textile", /SQLite/, "MongoDB" if prefer :database, 'mongodb'
-  gsub_file "README.textile", /ActiveRecord/, "the Mongoid ORM" if prefer :orm, 'mongoid'
-
-  # Template Engine
-  gsub_file "README.textile", /ERB/, "Haml" if prefer :templates, 'haml'
-  gsub_file "README.textile", /ERB/, "Slim" if prefer :templates, 'slim'
-
-  # Testing Framework
-  gsub_file "README.textile", /Test::Unit/, "RSpec" if prefer :unit_test, 'rspec'
-  gsub_file "README.textile", /RSpec/, "RSpec and Cucumber" if prefer :integration, 'cucumber'
-  gsub_file "README.textile", /RSpec/, "RSpec and Factory Girl" if prefer :fixtures, 'factory_girl'
-  gsub_file "README.textile", /RSpec/, "RSpec and Machinist" if prefer :fixtures, 'machinist'
-
-  # Front-end Framework
-  gsub_file "README.textile", /Front-end Framework: None/, "Front-end Framework: Twitter Bootstrap (Sass)" if prefer :bootstrap, 'sass'
-  gsub_file "README.textile", /Front-end Framework: None/, "Front-end Framework: Twitter Bootstrap (Less)" if prefer :bootstrap, 'less'
-  gsub_file "README.textile", /Front-end Framework: None/, "Front-end Framework: Zurb Foundation" if prefer :frontend, 'foundation'
-  gsub_file "README.textile", /Front-end Framework: None/, "Front-end Framework: Skeleton" if prefer :frontend, 'skeleton'
-  gsub_file "README.textile", /Front-end Framework: None/, "Front-end Framework: Normalized CSS" if prefer :frontend, 'normalize'
-
-  # Form Builder
-  gsub_file "README.textile", /Form Builder: None/, "Form Builder: SimpleForm" if prefer :form_builder, 'simple_form'
-
-  # Email
-  unless prefer :email, 'none'
-    gsub_file "README.textile", /Gmail/, "SMTP" if prefer :email, 'smtp'
-    gsub_file "README.textile", /Gmail/, "SendGrid" if prefer :email, 'sendgrid'
-    gsub_file "README.textile", /Gmail/, "Mandrill" if prefer :email, 'mandrill'
-  else
-    gsub_file "README.textile", /h2. Email/, ""
-    gsub_file "README.textile", /The application is configured to send email using a Gmail account./, ""
-  end
-
-  # Authentication and Authorization
-  gsub_file "README.textile", /Authentication: None/, "Authentication: Devise" if prefer :authentication, 'devise'
-  gsub_file "README.textile", /Authentication: None/, "Authentication: OmniAuth" if prefer :authentication, 'omniauth'
-  git :add => '-A' if prefer :git, true
-  git :commit => '-qm "rails_apps_composer: add README files"' if prefer :git, true
-
 end # after_everything
 
 
@@ -483,9 +437,6 @@ gem 'omniauth-linkedin' if prefer :omniauth_provider, 'linkedin'
 gem 'omniauth-google-oauth2' if prefer :omniauth_provider, 'google_oauth2'
 gem 'omniauth-tumblr' if prefer :omniauth_provider, 'tumblr'
 
-## Form Builder
-gem 'simple_form', '>= 2.0.4' if prefer :form_builder, 'simple_form'
-
 ## Gems from a defaults file or added interactively
 gems.each do |g|
   gem g
@@ -554,16 +505,6 @@ end # after_bundler
 after_bundler do
   ## Front-end Framework
   generate 'foundation:install' if prefer :frontend, 'foundation'
-  ## Form Builder
-  if prefer :form_builder, 'simple_form'
-    if prefer :frontend, 'bootstrap'
-      say_wizard "recipe installing simple_form for use with Twitter Bootstrap"
-      generate 'simple_form:install --bootstrap'
-    else
-      say_wizard "recipe installing simple_form"
-      generate 'simple_form:install'
-    end
-  end
   ## Git
   git :add => '-A' if prefer :git, true
   git :commit => '-qm "rails_apps_composer: generators"' if prefer :git, true
@@ -931,43 +872,6 @@ after_bundler do
 end # after_bundler
 
 
-# >---------------------------------[ views ]---------------------------------<
-
-@current_recipe = "views"
-@before_configs["views"].call if @before_configs["views"]
-say_recipe 'views'
-
-
-@configs[@current_recipe] = config
-
-# Application template recipe for the rails_apps_composer. Change the recipe here:
-# https://github.com/RailsApps/rails_apps_composer/blob/master/recipes/views.rb
-
-after_bundler do
-  say_wizard "recipe running after 'bundle install'"
-  ### DEVISE ###
-  if prefer :authentication, 'devise'
-    copy_from_repo 'app/views/devise/shared/_links.html.erb'
-    unless prefer :form_builder, 'simple_form'
-      copy_from_repo 'app/views/devise/registrations/edit.html.erb'
-      copy_from_repo 'app/views/devise/registrations/new.html.erb'
-    else
-      copy_from_repo 'app/views/devise/registrations/edit-simple_form.html.erb', :prefs => 'simple_form'
-      copy_from_repo 'app/views/devise/registrations/new-simple_form.html.erb', :prefs => 'simple_form'
-      copy_from_repo 'app/views/devise/sessions/new-simple_form.html.erb', :prefs => 'simple_form'
-    end
-  end
-  ### HOME ###
-  copy_from_repo 'app/views/home/index-subdomains_app.html.erb', :prefs => 'subdomains_app'
-  ### USERS ###
-  ### PROFILES ###
-  copy_from_repo 'app/views/profiles/show-subdomains_app.html.erb', :prefs => 'subdomains_app'
-  ### GIT ###
-  git :add => '-A' if prefer :git, true
-  git :commit => '-qm "rails_apps_composer: views"' if prefer :git, true
-end # after_bundler
-
-
 # >-------------------------------[ frontend ]--------------------------------<
 
 @current_recipe = "frontend"
@@ -1007,6 +911,43 @@ after_bundler do
   git :add => '-A' if prefer :git, true
   git :commit => '-qm "rails_apps_composer: front-end framework"' if prefer :git, true
 end # after_bundler
+
+
+# >-----------------------------[ form_builder ]------------------------------<
+
+@current_recipe = "form_builder"
+@before_configs["form_builder"].call if @before_configs["form_builder"]
+say_recipe 'form_builder'
+
+config = {}
+config['form_builder'] = multiple_choice("What form builder would you like to use?", [["None", "none"], ["SimpleForm", "simple_form"], ["Formtastic", "formtastic"]]) if true && true unless config.key?('form_builder') || prefs.has_key?(:form_builder)
+@configs[@current_recipe] = config
+
+## Form Builder
+prefs[:form_builder] = config['form_builder']
+
+case config['form_builder']
+when 'simple_form'
+  gem 'simple_form', '~> 2.0.4'
+when 'formtastic'
+  gem 'formtastic'
+end
+
+after_bundler do
+  ## Form Builder
+  if prefer :form_builder, 'simple_form'
+    say_wizard "recipe installing simple_form"
+    generate 'simple_form:install'
+  elsif prefer :form_builder, 'formtastic'
+    say_wizard "recipe installing formtastic"
+    generate 'formtastic:install'
+  end
+
+  if prefer :git, true
+    git :add => '-A'
+    git :commit => '-qm "rails_apps_composer: form builders"'
+  end
+end
 
 
 # >---------------------------------[ init ]----------------------------------<
@@ -1242,6 +1183,43 @@ say_recipe 'Koality'
 @configs[@current_recipe] = config
 
 gem 'koality', :group => [:development, :testing]
+
+
+# >---------------------------------[ views ]---------------------------------<
+
+@current_recipe = "views"
+@before_configs["views"].call if @before_configs["views"]
+say_recipe 'views'
+
+
+@configs[@current_recipe] = config
+
+# Application template recipe for the rails_apps_composer. Change the recipe here:
+# https://github.com/RailsApps/rails_apps_composer/blob/master/recipes/views.rb
+
+after_bundler do
+  say_wizard "recipe running after 'bundle install'"
+  ### DEVISE ###
+  if prefer :authentication, 'devise'
+    copy_from_repo 'app/views/devise/shared/_links.html.erb'
+    if prefer(:form_builder, 'simple_form')
+      copy_from_repo 'app/views/devise/registrations/edit-simple_form.html.erb', :prefs => 'simple_form'
+      copy_from_repo 'app/views/devise/registrations/new-simple_form.html.erb', :prefs => 'simple_form'
+      copy_from_repo 'app/views/devise/sessions/new-simple_form.html.erb', :prefs => 'simple_form'
+    else
+      copy_from_repo 'app/views/devise/registrations/edit.html.erb'
+      copy_from_repo 'app/views/devise/registrations/new.html.erb'
+    end
+  end
+  ### HOME ###
+  copy_from_repo 'app/views/home/index-subdomains_app.html.erb', :prefs => 'subdomains_app'
+  ### USERS ###
+  ### PROFILES ###
+  copy_from_repo 'app/views/profiles/show-subdomains_app.html.erb', :prefs => 'subdomains_app'
+  ### GIT ###
+  git :add => '-A' if prefer :git, true
+  git :commit => '-qm "rails_apps_composer: views"' if prefer :git, true
+end # after_bundler
 
 
 

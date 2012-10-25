@@ -9,6 +9,7 @@ recipes:
 - controllers
 - views
 - frontend
+- form_builder
 - init
 - extras
 - admin

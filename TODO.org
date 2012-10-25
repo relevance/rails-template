@@ -9,7 +9,8 @@
 *** DONE Remove skeleton and normalize from options
 ** DONE Remove authorization question
 ** DONE Remove starter app question
-** TODO Add Formtastic to form builder gems
+** DONE Add Formtastic to form builder gems
+*** TODO look into creating formtastic-specific devise pages (views recipe)
 ** TODO Add new option to authentication - Devise + OmniAuth
 ** TODO Research the right options for email sending
    

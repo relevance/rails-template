@@ -89,9 +89,6 @@ gem 'omniauth-linkedin' if prefer :omniauth_provider, 'linkedin'
 gem 'omniauth-google-oauth2' if prefer :omniauth_provider, 'google_oauth2'
 gem 'omniauth-tumblr' if prefer :omniauth_provider, 'tumblr'
 
-## Form Builder
-gem 'simple_form', '>= 2.0.4' if prefer :form_builder, 'simple_form'
-
 ## Gems from a defaults file or added interactively
 gems.each do |g|
   gem g
@@ -160,16 +157,6 @@ end # after_bundler
 after_bundler do
   ## Front-end Framework
   generate 'foundation:install' if prefer :frontend, 'foundation'
-  ## Form Builder
-  if prefer :form_builder, 'simple_form'
-    if prefer :frontend, 'bootstrap'
-      say_wizard "recipe installing simple_form for use with Twitter Bootstrap"
-      generate 'simple_form:install --bootstrap'
-    else
-      say_wizard "recipe installing simple_form"
-      generate 'simple_form:install'
-    end
-  end
   ## Git
   git :add => '-A' if prefer :git, true
   git :commit => '-qm "rails_apps_composer: generators"' if prefer :git, true

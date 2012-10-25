@@ -6,13 +6,13 @@ after_bundler do
   ### DEVISE ###
   if prefer :authentication, 'devise'
     copy_from_repo 'app/views/devise/shared/_links.html.erb'
-    unless prefer :form_builder, 'simple_form'
-      copy_from_repo 'app/views/devise/registrations/edit.html.erb'
-      copy_from_repo 'app/views/devise/registrations/new.html.erb'
-    else
+    if prefer(:form_builder, 'simple_form')
       copy_from_repo 'app/views/devise/registrations/edit-simple_form.html.erb', :prefs => 'simple_form'
       copy_from_repo 'app/views/devise/registrations/new-simple_form.html.erb', :prefs => 'simple_form'
       copy_from_repo 'app/views/devise/sessions/new-simple_form.html.erb', :prefs => 'simple_form'
+    else
+      copy_from_repo 'app/views/devise/registrations/edit.html.erb'
+      copy_from_repo 'app/views/devise/registrations/new.html.erb'
     end
   end
   ### HOME ###
@@ -32,5 +32,5 @@ description: "Add views needed for Devise and other gems."
 author: RailsApps
 
 requires: [setup, gems, models, controllers]
-run_after: [setup, gems, models, controllers]
-category: mvc
+run_after: [setup, gems, models, controllers, form_builder]
+category: mv
