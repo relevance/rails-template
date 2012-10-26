@@ -1,17 +1,41 @@
+BLACK_TEXT =   "\033[30m"
+RED_TEXT =     "\033[31m"
+GREEN_TEXT =   "\033[32m"
+BROWN_TEXT =   "\033[33m"
+BLUE_TEXT =    "\033[34m"
+MAGENTA_TEXT = "\033[35m"
+CYAN_TEXT =    "\033[36m"
+GRAY_TEXT =    "\033[37m"
+
+BLACK_BACK =   "\033[40m"
+RED_BACK =     "\033[41m"
+GREEN_BACK =   "\033[42m"
+BROWN_BACK =   "\033[43m"
+BLUE_BACK =    "\033[44m"
+MAGENTA_BACK = "\033[45m"
+CYAN_BACK =    "\033[46m"
+WHITE_BACK =   "\033[47m"
+
+RESET_COLORS = "\033[0m"
+BOLD_ON =      "\033[1m"
+BLINK_ON =     "\033[5m"
+REVERSE_ON =   "\033[7m"
+BOLD_OFF =     "\033[22m"
+BLINK_OFF =    "\033[25m"
+REVERSE_OFF =  "\033[27m"
+
 def recipes; @recipes end
 def recipe?(name); @recipes.include?(name) end
 def prefs; @prefs end
 def prefer(key, value); @prefs[key].eql? value end
 def gems; @gems end
-def diagnostics_recipes; @diagnostics_recipes end
-def diagnostics_prefs; @diagnostics_prefs end
 
-def say_custom(tag, text); say "\033[1m\033[36m" + tag.to_s.rjust(10) + "\033[0m" + "  #{text}" end
-def say_recipe(name); say "\033[1m\033[36m" + "recipe".rjust(10) + "\033[0m" + "  Running #{name} recipe..." end
+def say_custom(tag, text); say "#{BOLD_ON}#{CYAN_TEXT}" + tag.to_s.rjust(10) + RESET_COLORS + "  #{text}" end
+def say_recipe(name); say "#{BOLD_ON}#{CYAN_TEXT}" + "recipe".rjust(10) + RESET_COLORS + "  Running #{name} recipe..." end
 def say_wizard(text); say_custom(@current_recipe || 'composer', text) end
 
 def ask_wizard(question)
-  ask "\033[1m\033[30m\033[46m" + (@current_recipe || "prompt").rjust(10) + "\033[1m\033[36m" + "  #{question}\033[0m"
+  ask "#{BOLD_ON}#{REVERSE_ON}" + (@current_recipe || "prompt").rjust(10) + "#{BOLD_ON}" + "  #{question}#{REVERSE_OFF}"
 end
 
 def yes_wizard?(question)

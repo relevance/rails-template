@@ -19,8 +19,6 @@ after_everything do
   gsub_file "README.textile", /App_Name/, "#{app_name.humanize.titleize}"
 
   # Diagnostics
-  gsub_file "README.textile", /recipes that are known/, "recipes that are NOT known" if diagnostics[:recipes] == 'fail'
-  gsub_file "README.textile", /preferences that are known/, "preferences that are NOT known" if diagnostics[:prefs] == 'fail'
   gsub_file "README.textile", /RECIPES/, recipes.sort.inspect
   gsub_file "README.textile", /PREFERENCES/, prefs.inspect
   gsub_file "README", /RECIPES/, recipes.sort.inspect
