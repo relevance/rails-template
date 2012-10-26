@@ -2,25 +2,7 @@
 # https://github.com/RailsApps/rails_apps_composer/blob/master/recipes/extras.rb
 
 ## QUIET ASSETS
-if config['quiet_assets']
-  prefs[:quiet_assets] = true
-end
-if prefs[:quiet_assets]
-  say_wizard "recipe setting quiet_assets for reduced asset pipeline logging"
-  gem 'quiet_assets', '>= 1.0.1', :group => :development
-end
-
-## BAN SPIDERS
-if config['ban_spiders']
-  prefs[:ban_spiders] = true
-end
-if prefs[:ban_spiders]
-  say_wizard "recipe banning spiders by modifying 'public/robots.txt'"
-  after_bundler do
-    gsub_file 'public/robots.txt', /# User-Agent/, 'User-Agent'
-    gsub_file 'public/robots.txt', /# Disallow/, 'Disallow'
-  end
-end
+gem 'quiet_assets', '>= 1.0.1', :group => :development
 
 ## JSRUNTIME
 case RbConfig::CONFIG['host_os']
@@ -129,15 +111,6 @@ run_after: [gems, init, prelaunch]
 category: other
 
 config:
-  - quiet_assets:
-      type: boolean
-      prompt: Reduce assets logger noise during development?
-  - ban_spiders:
-      type: boolean
-      prompt: Set a robots.txt file to ban spiders?
   - rvmrc:
       type: boolean
       prompt: Create a project-specific rvm gemset and .rvmrc?
-  - github:
-      type: boolean
-      prompt: Create a GitHub repository?

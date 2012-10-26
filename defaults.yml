@@ -22,6 +22,7 @@ prefs:
   :unit_test: rspec
   :integration: rspec-capybara
   :fixtures: factory_girl
+  :email: none
   
 args:
   :skip_test_unit: yes 

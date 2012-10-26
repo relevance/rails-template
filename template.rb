@@ -30,7 +30,7 @@ end
 RUBY
 
 @recipes = ["git", "setup", "readme", "gems", "email", "models", "controllers", "frontend", "form_builder", "authentication", "admin", "koality", "init", "testing", "views", "extras"]
-@prefs = {:dev_webserver=>"thin", :templates=>"haml", :unit_test=>"rspec", :integration=>"rspec-capybara", :fixtures=>"factory_girl"}
+@prefs = {:dev_webserver=>"thin", :templates=>"haml", :unit_test=>"rspec", :integration=>"rspec-capybara", :fixtures=>"factory_girl", :email=>"none"}
 @gems = []
 @diagnostics_recipes = [["example"], ["setup"], ["railsapps"], ["gems", "setup"], ["gems", "readme", "setup"], ["extras", "gems", "readme", "setup"], ["example", "git"], ["git", "setup"], ["git", "railsapps"], ["gems", "git", "setup"], ["gems", "git", "readme", "setup"], ["extras", "gems", "git", "readme", "setup"], ["controllers", "email", "extras", "frontend", "gems", "git", "init", "models", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "core", "email", "extras", "frontend", "gems", "git", "init", "models", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "core", "email", "extras", "frontend", "gems", "git", "init", "models", "prelaunch", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "core", "email", "extras", "frontend", "gems", "git", "init", "models", "prelaunch", "railsapps", "readme", "routes", "saas", "setup", "testing", "views"], ["controllers", "email", "example", "extras", "frontend", "gems", "git", "init", "models", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "email", "example", "extras", "frontend", "gems", "git", "init", "models", "prelaunch", "railsapps", "readme", "routes", "setup", "testing", "views"], ["controllers", "email", "example", "extras", "frontend", "gems", "git", "init", "models", "prelaunch", "railsapps", "readme", "routes", "saas", "setup", "testing", "views"]]
 @diagnostics_prefs = [{:railsapps=>"rails-stripe-membership-saas", :database=>"sqlite", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"bootstrap", :bootstrap=>"sass", :email=>"gmail", :authentication=>"devise", :devise_modules=>"default", :authorization=>"cancan", :starter_app=>"admin_app", :form_builder=>"simple_form"}, {:railsapps=>"rails-stripe-membership-saas", :database=>"sqlite", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"bootstrap", :bootstrap=>"sass", :email=>"mandrill", :authentication=>"devise", :devise_modules=>"confirmable", :authorization=>"cancan", :starter_app=>"admin_app", :form_builder=>"simple_form"}, {:railsapps=>"rails-prelaunch-signup", :database=>"sqlite", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"bootstrap", :bootstrap=>"sass", :email=>"mandrill", :authentication=>"devise", :devise_modules=>"confirmable", :authorization=>"cancan", :starter_app=>"admin_app", :form_builder=>"simple_form"}, {:railsapps=>"rails3-bootstrap-devise-cancan", :database=>"sqlite", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"bootstrap", :bootstrap=>"sass", :email=>"gmail", :authentication=>"devise", :devise_modules=>"default", :authorization=>"cancan", :starter_app=>"admin_app", :form_builder=>"simple_form"}, {:railsapps=>"rails3-devise-rspec-cucumber", :database=>"sqlite", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"none", :email=>"gmail", :authentication=>"devise", :devise_modules=>"default", :authorization=>"none", :starter_app=>"users_app", :form_builder=>"none"}, {:railsapps=>"rails3-mongoid-devise", :database=>"mongodb", :orm=>"mongoid", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"none", :email=>"gmail", :authentication=>"devise", :devise_modules=>"default", :authorization=>"none", :starter_app=>"users_app", :form_builder=>"none"}, {:railsapps=>"rails3-mongoid-omniauth", :database=>"mongodb", :orm=>"mongoid", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"none", :email=>"none", :authentication=>"omniauth", :omniauth_provider=>"twitter", :authorization=>"none", :starter_app=>"users_app", :form_builder=>"none"}, {:railsapps=>"rails3-subdomains", :database=>"mongodb", :orm=>"mongoid", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"none", :email=>"gmail", :authentication=>"devise", :devise_modules=>"default", :authorization=>"none", :starter_app=>"subdomains_app", :form_builder=>"none"}, {:railsapps=>"none", :database=>"sqlite", :unit_test=>"rspec", :integration=>"rspec-capybara", :fixtures=>"factory_girl", :frontend=>"bootstrap", :bootstrap=>"sass", :email=>"none", :authentication=>"omniauth", :omniauth_provider=>"twitter", :authorization=>"cancan", :form_builder=>"none", :starter_app=>"admin_app"}, {:railsapps=>"none", :database=>"sqlite", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"none", :frontend=>"bootstrap", :bootstrap=>"sass", :email=>"gmail", :authentication=>"devise", :devise_modules=>"invitable", :authorization=>"cancan", :form_builder=>"simple_form", :starter_app=>"admin_app"}, {:railsapps=>"none", :database=>"sqlite", :unit_test=>"rspec", :integration=>"cucumber", :fixtures=>"factory_girl", :frontend=>"bootstrap", :bootstrap=>"sass", :email=>"gmail", :authentication=>"devise", :devise_modules=>"default", :authorization=>"cancan", :form_builder=>"none", :starter_app=>"admin_app"}, {:railsapps=>"none", :database=>"sqlite", :unit_test=>"test_unit", :integration=>"none", :fixtures=>"none", :frontend=>"bootstrap", :bootstrap=>"less", :email=>"sendgrid", :authentication=>"devise", :devise_modules=>"confirmable", :authorization=>"cancan", :form_builder=>"none", :starter_app=>"admin_app"}]
@@ -792,20 +792,20 @@ after_bundler do
   ### DEVISE + OMNIAUTH ###
   if prefer :authentication, 'devise-omniauth'
     if prefer :devise_user, true
-      generate 'migration', 'AddOmniauthColumnsToUsers', 'provider:string', 'uid:string'
+      generate 'migration AddOmniauthColumnsToUsers provider:string uid:string'
 
       gsub_file 'app/models/user.rb', /^end$/, <<-FILE
-  attr_accessible :provider, :uid
 
-  devise :omniauthable
   # See https://github.com/plataformatec/devise/wiki/OmniAuth:-Overview
   # for more details on using Devise + OmniAuth
+  attr_accessible :provider, :uid
+  devise :omniauthable
 
 end
 FILE
       insert_into_file('config/initializers/devise.rb',
-                  "config.omniauth :#{prefs[:omniauth_provider]}, 'APP_ID', 'APP_SECRET'",
-                  :after => 'Devise.setup do |config|')
+                  "\n  config.omniauth :#{prefs[:omniauth_provider]}, 'APP_ID', 'APP_SECRET'",
+                  :after => "Devise.setup do |config|")
     end
   end
 
@@ -1066,35 +1066,14 @@ end # after_bundler
 say_recipe 'extras'
 
 config = {}
-config['quiet_assets'] = yes_wizard?("Reduce assets logger noise during development?") if true && true unless config.key?('quiet_assets') || prefs.has_key?(:quiet_assets)
-config['ban_spiders'] = yes_wizard?("Set a robots.txt file to ban spiders?") if true && true unless config.key?('ban_spiders') || prefs.has_key?(:ban_spiders)
 config['rvmrc'] = yes_wizard?("Create a project-specific rvm gemset and .rvmrc?") if true && true unless config.key?('rvmrc') || prefs.has_key?(:rvmrc)
-config['github'] = yes_wizard?("Create a GitHub repository?") if true && true unless config.key?('github') || prefs.has_key?(:github)
 @configs[@current_recipe] = config
 
 # Application template recipe for the rails_apps_composer. Change the recipe here:
 # https://github.com/RailsApps/rails_apps_composer/blob/master/recipes/extras.rb
 
 ## QUIET ASSETS
-if config['quiet_assets']
-  prefs[:quiet_assets] = true
-end
-if prefs[:quiet_assets]
-  say_wizard "recipe setting quiet_assets for reduced asset pipeline logging"
-  gem 'quiet_assets', '>= 1.0.1', :group => :development
-end
-
-## BAN SPIDERS
-if config['ban_spiders']
-  prefs[:ban_spiders] = true
-end
-if prefs[:ban_spiders]
-  say_wizard "recipe banning spiders by modifying 'public/robots.txt'"
-  after_bundler do
-    gsub_file 'public/robots.txt', /# User-Agent/, 'User-Agent'
-    gsub_file 'public/robots.txt', /# Disallow/, 'Disallow'
-  end
-end
+gem 'quiet_assets', '>= 1.0.1', :group => :development
 
 ## JSRUNTIME
 case RbConfig::CONFIG['host_os']
