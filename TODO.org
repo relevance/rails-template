@@ -33,3 +33,4 @@
 ** TODO Use this for OmniAuth providers
    
 * TODO Change color scheme for questions!
+* TODO Use user's name by default for database username
