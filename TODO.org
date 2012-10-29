@@ -24,14 +24,14 @@
 * DONE Look at robots.txt and possibly remove
 * DONE Remove Github repo creation
 * DONE Change color scheme for questions!
-* TODO Use user's name by default for database username
 
+* DONE Ask about exception notification
+* TODO Use user's name by default for database username
 * TODO Rewrite RVM question and create .ruby-version file
+* TODO Add ability to give multiple answers
+** TODO Use this for OmniAuth providers
 
 * TODO Port magic scrolls from Relevance-Rails
 * TODO Add deploy script for Heroku if deploying to Heroku
 * TODO Ask about background jobs/Sidekiq?
-* TODO Ask about exception notification
 * TODO Ask about task scheduling/Whenever
-* TODO Add ability to give multiple answers
-** TODO Use this for OmniAuth providers

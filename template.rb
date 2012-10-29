@@ -30,7 +30,7 @@ Rails.application.config.generators do |g|
 end
 RUBY
 
-@recipes = ["git", "setup", "readme", "gems", "email", "models", "controllers", "frontend", "form_builder", "authentication", "admin", "koality", "init", "testing", "views", "extras"]
+@recipes = ["git", "setup", "readme", "gems", "email", "models", "controllers", "frontend", "form_builder", "authentication", "admin", "koality", "init", "exception_notification", "testing", "views", "extras"]
 @prefs = {:dev_webserver=>"thin", :templates=>"haml", :unit_test=>"rspec", :integration=>"rspec-capybara", :fixtures=>"factory_girl", :email=>"none"}
 @gems = []
 
@@ -913,6 +913,77 @@ after_everything do
   ### GIT ###
   git :add => '-A' if prefer :git, true
   git :commit => '-qm "rails_apps_composer: set up database"' if prefer :git, true
+end
+
+
+# >------------------------[ exception_notification ]-------------------------<
+
+@current_recipe = "exception_notification"
+@before_configs["exception_notification"].call if @before_configs["exception_notification"]
+say_recipe 'exception_notification'
+
+config = {}
+config['exception_notification'] = multiple_choice("What exception notification system would you like to use?", [["None", "none"], ["Coalmine", "coalmine"], ["Airbrake", "airbrake"]]) if true && true unless config.key?('exception_notification') || prefs.has_key?(:exception_notification)
+config['api_key'] = ask_wizard("Please enter your API key.") if true && true unless config.key?('api_key') || prefs.has_key?(:api_key)
+config['host'] = ask_wizard("Please enter the hostname you wish to use. (Hit enter to skip this question.)") if true && true unless config.key?('host') || prefs.has_key?(:host)
+@configs[@current_recipe] = config
+
+prefs[:exception_notification] = config['exception_notification']
+
+case config['exception_notification']
+when 'coalmine'
+  gem 'coalmine', '~> 0.5.3'
+when 'airbrake'
+  gem 'airbrake', '~> 3.1.6'
+end
+
+def coalmine_initializer(api_key)
+  <<-EOF.gsub(/^ {4}/, '')
+    Coalmine.configure do |config|
+      config.signature = '#{api_key}'
+      config.logger = Rails.logger
+    end
+  EOF
+end
+
+def airbrake_initializer(api_key)
+  <<-EOF.gsub(/^ {4}/, '')
+    Airbrake.configure do |config|
+      config.api_key = '#{api_key}'
+    end
+  EOF
+end
+
+def airbrake_host_initializer(host)
+  <<-EOF.gsub(/^ {4}/, '')
+      config.host    = '#{host}'
+      config.port    = '80'
+      config.secure  = config.port == 443
+  EOF
+end
+
+after_bundler do
+  if prefer :exception_notification, 'coalmine'
+    say_wizard "recipe installing coalmine"
+    create_file "config/initializers/coalmine.rb" do
+      coalmine_initializer(config['api_key'])
+    end
+  elsif prefer :exception_notification, 'airbrake'
+    say_wizard "recipe installing airbrake"
+    create_file "config/initializers/airbrake.rb" do
+      airbrake_initializer(config['api_key'])
+    end
+    if config['host'].present?
+      insert_into_file "config/initializers/airbrake.rb", :before => "end" do
+        airbrake_host_initializer(config['host'])
+      end
+    end
+  end
+
+  if prefer :git, true
+    git :add => '-A'
+    git :commit => '-qm "rails_apps_composer: exception notification"'
+  end
 end
 
 
