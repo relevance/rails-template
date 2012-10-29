@@ -1,13 +1,3 @@
-GIT
-  remote: git://github.com/crnixon/rails_apps_composer.git
-  revision: ca69c30310a79af56ef6e7a982e4a8a11de6ca12
-  specs:
-    rails_apps_composer (2.2.16)
-      activesupport (>= 3.0.0)
-      i18n
-      rake
-      thor
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -67,6 +57,11 @@ GEM
       activesupport (= 3.2.8)
       bundler (~> 1.0)
       railties (= 3.2.8)
+    rails_apps_composer (2.2.17)
+      activesupport (>= 3.0.0)
+      i18n
+      rake
+      thor
     railties (3.2.8)
       actionpack (= 3.2.8)
       activesupport (= 3.2.8)
@@ -86,11 +81,11 @@ GEM
     treetop (1.4.11)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.33)
+    tzinfo (0.3.34)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   rails
-  rails_apps_composer!
+  rails_apps_composer
