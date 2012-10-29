@@ -14,7 +14,7 @@
 ** DONE Add new option to authentication - Devise + OmniAuth
 ** DONE Research the right options for email sending
 *** Removed email option by setting it in defaults
-   
+
 
 * DONE Add koality
 * DONE Remove WEBRick from production web server choices
@@ -24,13 +24,13 @@
 * TODO Ask about background jobs/Sidekiq?
 * TODO Ask about exception notification
 * TODO Ask about task scheduling/Whenever
-* TODO Fix diagnostics message at end of template
+* DONE Fix diagnostics message at end of template
 * DONE Remove assets logger noise by default
 * DONE Look at robots.txt and possibly remove
 * TODO Rewrite RVM question and create .ruby-version file
 * DONE Remove Github repo creation
 * TODO Add ability to give multiple answers
 ** TODO Use this for OmniAuth providers
-   
-* TODO Change color scheme for questions!
+
+* DONE Change color scheme for questions!
 * TODO Use user's name by default for database username

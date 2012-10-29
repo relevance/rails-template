@@ -657,7 +657,7 @@ when 'compass'
   gem 'compass-rails', '~> 1.0.3', :group => :assets
 when 'foundation'
   gem 'compass-rails', '~> 1.0.3', :group => :assets
-  gem 'zurb-foundation', '~> 3.1.1', :group => :assets if prefer :frontend, 'foundation'
+  gem 'zurb-foundation', '~> 3.1.1', :group => :assets
 end
 
 after_bundler do
