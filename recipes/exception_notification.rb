@@ -3,8 +3,11 @@ prefs[:exception_notification] = config['exception_notification']
 case config['exception_notification']
 when 'coalmine'
   gem 'coalmine', '~> 0.5.3'
+  config['api_key'] = ask_wizard "Please enter your Coalmine API key:"
 when 'airbrake'
   gem 'airbrake', '~> 3.1.6'
+  config['api_key'] = ask_wizard "Please enter your Airbrake API key:"
+  config['host'] = ask_wizard "Please enter the Airbrake hostname you wish to use: (or hit enter to use the default)"
 end
 
 def coalmine_initializer(api_key)
@@ -71,9 +74,3 @@ config:
       type: multiple_choice
       prompt: "What exception notification system would you like to use?"
       choices: [["None", "none"], ["Coalmine", "coalmine"], ["Airbrake", "airbrake"]]
-  - api_key:
-      type: string
-      prompt: "Please enter your API key."
-  - host:
-      type: string
-      prompt: "Please enter the hostname you wish to use. (Hit enter to skip this question.)"
