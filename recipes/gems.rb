@@ -90,13 +90,14 @@ after_bundler do
   copy_from_repo 'config/database-postgresql.yml', :prefs => 'postgresql'
   copy_from_repo 'config/database-mysql.yml', :prefs => 'mysql'
   remove_file 'config/database.yml' if prefer :orm, 'mongoid'
+  default_username = ENV['USER']
   if prefer :database, 'postgresql'
     begin
-      pg_username = ask_wizard("Username for PostgreSQL? (leave blank to use the app name)")
+      pg_username = ask_wizard("Username for PostgreSQL? (leave blank to use '#{default_username}')")
       if pg_username.blank?
-        say_wizard "Creating a user named '#{app_name}' for PostgreSQL"
-        run "createuser #{app_name}" if prefer :database, 'postgresql'
-        gsub_file "config/database.yml", /username: .*/, "username: #{app_name}"
+        say_wizard "Creating a user named '#{default_username}' for PostgreSQL"
+        run %{sudo su postgres -c "createuser -d -R -S #{default_username}"} if prefer :database, 'postgresql'
+        gsub_file "config/database.yml", /username: .*/, "username: #{default_username}"
       else
         gsub_file "config/database.yml", /username: .*/, "username: #{pg_username}"
         pg_password = ask_wizard("Password for PostgreSQL user #{pg_username}?")
@@ -111,9 +112,9 @@ after_bundler do
     gsub_file "config/database.yml", /database: myapp_production/,  "database: #{app_name}_production"
   end
   if prefer :database, 'mysql'
-    mysql_username = ask_wizard("Username for MySQL? (leave blank to use the app name)")
+    mysql_username = ask_wizard("Username for MySQL? (leave blank to use '#{default_username}')")
     if mysql_username.blank?
-      gsub_file "config/database.yml", /username: .*/, "username: #{app_name}"
+      gsub_file "config/database.yml", /username: .*/, "username: #{default_username}"
     else
       gsub_file "config/database.yml", /username: .*/, "username: #{mysql_username}"
       mysql_password = ask_wizard("Password for MySQL user #{mysql_username}?")
@@ -125,7 +126,7 @@ after_bundler do
     gsub_file "config/database.yml", /database: myapp_production/,  "database: #{app_name}_production"
   end
   unless prefer :database, 'sqlite'
-    affirm = yes_wizard? "Drop any existing databases named #{app_name}?"
+    affirm = yes_wizard? "Drop any existing databases named with prefix #{app_name}_?"
     if affirm
       run 'bundle exec rake db:drop'
     else
