@@ -26,12 +26,14 @@
 * DONE Change color scheme for questions!
 
 * DONE Ask about exception notification
-* TODO Use user's name by default for database username
-* TODO Rewrite RVM question and create .ruby-version file
-* TODO Add ability to give multiple answers
-** TODO Use this for OmniAuth providers
+* DONE (2h) Use user's name by default for database username
+* TODO (2h) Create .ruby-version file
+* TODO (8h) Add ability to give multiple answers
+* TODO Use this for OmniAuth providers
 
 * TODO Port magic scrolls from Relevance-Rails
-* TODO Add deploy script for Heroku if deploying to Heroku
+* TODO Add deploy script for Heroku if deploying to Heroku (reference tilt:config/deploy script)
 * TODO Ask about background jobs/Sidekiq?
 * TODO Ask about task scheduling/Whenever
+* TODO Rails version should use current Rails version pinned with ~.
+* TODO Create mysql user in the gems recipe, similar to postgres
