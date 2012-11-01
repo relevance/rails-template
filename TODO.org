@@ -1,3 +1,4 @@
+
 * Setup Recipe
 ** DONE Show Passenger as an option for production web server
 ** DONE Ask if we are deploying to Heroku
@@ -27,6 +28,7 @@
 
 * DONE Ask about exception notification
 * DONE (2h) Use user's name by default for database username
+* DONE Discover effective testing pattern for recipes
 * TODO (2h) Create .ruby-version file
 * TODO (8h) Add ability to give multiple answers
 * TODO Use this for OmniAuth providers
