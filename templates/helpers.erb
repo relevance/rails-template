@@ -63,6 +63,20 @@ def multiple_choice(question, choices)
   values[answer]
 end
 
+def multiple_selection(question, choices)
+  say_custom('question', question)
+  values = {}
+  choices.each_with_index do |choice,i|
+    values[(i + 1).to_s] = choice[1]
+    say_custom( (i + 1).to_s + ')', choice[0] )
+  end
+  answer = []
+  until answer.count > 0 && answer.all? {|a| values.keys.include?(a) } do
+    answer = ask_wizard("Enter your selection (separate multiple selections with a space)").split
+  end
+  values.values_at(*answer)
+end
+
 @current_recipe = nil
 @configs = {}
 
