@@ -11,7 +11,7 @@ say_wizard "You are using Rails version #{Rails::VERSION::STRING}."
 gemfile = File.read(destination_root() + '/Gemfile')
 sqlite_detected = gemfile.include? 'sqlite3'
 
-prefs[:heroku] = yes_wizard? "Are you deploying to Heroku?"
+prefs[:heroku] = yes_wizard? "Are you deploying to Heroku?" unless prefs.has_key? :heroku
 
 ## Web Server
 webservers = {"Thin" => "thin", "Unicorn" => "unicorn", "Puma" => "puma"}
