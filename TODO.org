@@ -39,3 +39,19 @@
 * TODO Ask about task scheduling/Whenever
 * TODO Rails version should use current Rails version pinned with ~.
 * TODO Create mysql user in the gems recipe, similar to postgres
+* TODO Nix upfront recipe-chooser menu.
+
+* TODO Problems to be solved
+ - Code not yet testable in clean, isolated way.
+   - Stock layout.erb causes generator to run bundler at construction
+     time, other state-changing things.
+   - Testing requires shelling out to generate template, running afoul
+     of user prompting.
+ - User prompting difficult to disable since recipes are not allowed
+   same defaults system as built-in "setup" scripts.
+   - Optionally exposing a recipe to a user (e.g., choosing Heroku
+     stack means no form-builder, but otherwise we ask the user) isn't
+     currently possible. We'd have to extend the prefs system to cover
+     add-in recipes.
+
+
