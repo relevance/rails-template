@@ -1,32 +1,26 @@
 require 'spec_helper'
+require 'active_model'
+require 'action_view'
+require 'action_controller'
 
-require File.dirname(__FILE__) + '/../../recipes/ruby-version.rb'
+require 'rails/generators'
+require 'rails/generators/rails/app/app_generator'
+require 'generator_spec/test_case'
 
+describe Rails::Generators::AppGenerator do
+  include GeneratorSpec::TestCase
+  destination TEST_APPDIR
+  arguments ["DIE", "-m", TEST_TEMPLATE_FILE]
 
-describe RubyVersion do
-  let(:generator) { mock("generator").as_null_object }
-  subject { RubyVersion.new(generator, ".ruby-version", ".rbenv-version") }
+  before do
+    testing_recipe "ruby_version"
 
-  describe '.make_file' do
-    context "creates file" do
-      it "it respects basic config options" do
-        generator.should_receive("gem").with("coalmine", anything)
-
-        subject.config_switch
-        config.should have_key("api_key")
-      end
-    end
-
-    context "when airbrake" do
-      let(:config) {{'exception_notification' => 'airbrake'}}
-
-      it "it respects basic config options" do
-        generator.should_receive("gem").with("airbrake", anything)
-
-        subject.config_switch
-        config.should have_key("api_key")
-        config.should have_key("host")
-      end
-    end
+    prepare_destination
+    run_generator
   end
+
+  it 'works!!!' do
+
+  end
+
 end
