@@ -14,5 +14,5 @@ template.rb: defaults.yml $(RECIPES) $(TEMPLATES)
 	bundle exec rails_apps_composer template ./template.rb -L -l ./recipes -d ./defaults.yml -t ./templates
 
 test_template.rb: defaults.yml $(RECIPES) $(TEST_TEMPLATES)
-	bundle exec rails_apps_composer template ./spec/tmp/test_template.rb -L -l ./recipes -d ./spec/support/defaults.yml -t ./spec/support/templates -r $(DEFAULT_RECIPES) -q
+	bundle exec rails_apps_composer template ./spec/tmp/test_template.rb -L -l ./recipes -d ./spec/support/defaults.yml -t ./spec/support/templates -r $(DEFAULT_RECIPES) -q -f
 
