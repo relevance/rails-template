@@ -47,11 +47,22 @@
      time, other state-changing things.
    - Testing requires shelling out to generate template, running afoul
      of user prompting.
- - User prompting difficult to disable since recipes are not allowed
-   same defaults system as built-in "setup" scripts.
-   - Optionally exposing a recipe to a user (e.g., choosing Heroku
-     stack means no form-builder, but otherwise we ask the user) isn't
-     currently possible. We'd have to extend the prefs system to cover
-     add-in recipes.
+- It's not possible to both A) offer stacks that skip other recipes
+  and B) offer those skipped recipes stand-alone.
+   - Optionally exposing a recipe to a user (e.g., having Heroku stack
+    *available* means no form-builder, but otherwise we ask the user)
+    isn't currently possible. We'd have to extend the YAML config to be
+    know how to hide if a particular pref is present, figure out how to quash
+    recipe questions from within other recipes directly.
 
+
+* TODO Document
+** Opting out of a prompt via YAML "unless_recipe" means that question
+   will not run if the indicated recipe is present -- even if that
+   recipe itself is opted out of. This means if we want no frontend
+   prompt to appear if the heroku recipe is an option, but do want the
+   actual frontend recipe to run promptless, the heroku recipe will
+   have to set the prefs object accordingly. Which means the frontend
+   recipe must be marked to run after the heroku recipe so that it can
+   respond to the settings defined in the heroku recipe.
 
