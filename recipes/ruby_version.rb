@@ -1,26 +1,48 @@
-require 'spec_helper'
-require 'active_model'
-require 'action_view'
-require 'action_controller'
+class RubyVersion
+  extend Forwardable
+  def_delegators :@generator, :say_wizard, :create_file, :create_link
+  attr_reader :generator
 
-require 'rails/generators'
-require 'rails/generators/rails/app/app_generator'
-require 'generator_spec/test_case'
+  def initialize(generator, file, link)
+    @generator = generator
+    @file      = file
+    @link      = link
 
-describe Rails::Generators::AppGenerator do
-  include GeneratorSpec::TestCase
-  destination TEST_APPDIR
-  arguments ["DIE", "-m", TEST_TEMPLATE_FILE]
-
-  before do
-    testing_recipe "ruby_version"
-
-    prepare_destination
-    run_generator
+    @version = "#{RUBY_VERSION}p#{RUBY_PATCHLEVEL}"
   end
 
-  it 'works!!!' do
+  def announce
+    say_wizard "recipe creating .ruby-version file and .rbenv-version symlink for Ruby #{@version}"
+  end
 
+  def make_file
+    create_file @file do
+      @version
+    end
+  end
+
+  def make_link
+    create_link @file, @link
   end
 
 end
+
+
+rv = RubyVersion.new(self, ".ruby-version", ".rbenv-version")
+rv.announce
+rv.make_file
+rv.make_link
+
+
+git :add => '-A' if prefer :git, true
+git :commit => '-qm "rails_apps_composer: .ruby-version and .rbenv-version"' if prefer :git, true
+
+__END__
+
+name: ruby-version
+description: "Install a .ruby-version file and an .rbenv-version symlink to it."
+author: RailsApps + Relevance
+
+requires: [setup, gems]
+run_after: [setup, gems]
+category: configuration
