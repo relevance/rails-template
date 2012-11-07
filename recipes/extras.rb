@@ -64,8 +64,3 @@ author: RailsApps
 requires: [gems]
 run_after: [gems, init, prelaunch]
 category: other
-
-config:
-  - rvmrc:
-      type: boolean
-      prompt: Create a project-specific rvm gemset and .rvmrc?
