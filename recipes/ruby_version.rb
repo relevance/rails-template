@@ -1,3 +1,5 @@
+require 'forwardable'
+
 class RubyVersion
   extend Forwardable
   def_delegators :@generator, :say_wizard, :create_file, :create_link
@@ -17,12 +19,12 @@ class RubyVersion
 
   def make_file
     create_file @file do
-      @version
+      @version << "\n"
     end
   end
 
   def make_link
-    create_link @file, @link
+    create_link @link, @file
   end
 
 end
