@@ -48,12 +48,6 @@ end
 if prefer :unit_test, 'rspec'
   gem 'rspec-rails', '>= 2.11.0', :group => [:development, :test]
   gem 'capybara', '>= 1.1.2', :group => :test if prefer :integration, 'rspec-capybara'
-  if prefer :orm, 'mongoid'
-    # use the database_cleaner gem to reset the test database
-    gem 'database_cleaner', '>= 0.9.1', :group => :test
-    # include RSpec matchers from the mongoid-rspec gem
-    gem 'mongoid-rspec', '>= 1.4.6', :group => :test
-  end
   gem 'email_spec', '>= 1.2.1', :group => :test
 end
 if prefer :unit_test, 'minitest'
@@ -63,7 +57,7 @@ if prefer :unit_test, 'minitest'
 end
 if prefer :integration, 'cucumber'
   gem 'cucumber-rails', '>= 1.3.0', :group => :test, :require => false
-  gem 'database_cleaner', '>= 0.9.1', :group => :test unless prefer :orm, 'mongoid'
+  gem 'database_cleaner', '>= 0.9.1', :group => :test
   gem 'launchy', '>= 2.1.2', :group => :test
   gem 'capybara', '>= 1.1.2', :group => :test
 end
@@ -89,7 +83,6 @@ git :commit => '-qm "rails_apps_composer: Gemfile"' if prefer :git, true
 after_bundler do
   copy_from_repo 'config/database-postgresql.yml', :prefs => 'postgresql'
   copy_from_repo 'config/database-mysql.yml', :prefs => 'mysql'
-  remove_file 'config/database.yml' if prefer :orm, 'mongoid'
   default_username = ENV['USER']
   if prefer :database, 'postgresql'
     begin
@@ -133,8 +126,7 @@ after_bundler do
       raise "aborted at user's request"
     end
   end
-  run 'bundle exec rake db:create:all' unless prefer :orm, 'mongoid'
-  run 'bundle exec rake db:create' if prefer :orm, 'mongoid'
+  run 'bundle exec rake db:create:all'
   ## Git
   git :add => '-A' if prefer :git, true
   git :commit => '-qm "rails_apps_composer: create database"' if prefer :git, true
