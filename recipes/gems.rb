@@ -4,7 +4,7 @@
 ### GEMFILE ###
 
 ## Ruby on Rails
-insert_into_file 'Gemfile', "ruby '1.9.3'\n", :before => "gem 'rails', '3.2.6'" if prefer :deploy, 'heroku'
+insert_into_file 'Gemfile', "ruby '1.9.3'\n", :before => "gem 'rails', '3.2.6'" if prefer :stack, 'heroku'
 
 webserver_versions = {
   'thin' => '>= 1.5.0',
@@ -146,5 +146,5 @@ description: "Add the gems your application needs."
 author: RailsApps
 
 requires: [setup]
-run_after: [setup]
+run_after: [setup, heroku, ec2]
 category: configuration

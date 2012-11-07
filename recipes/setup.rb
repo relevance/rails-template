@@ -8,51 +8,8 @@ say_wizard "You are using Ruby version #{RUBY_VERSION}."
 say_wizard "You are using Rails version #{Rails::VERSION::STRING}."
 
 
-prefs[:heroku] = yes_wizard? "Are you deploying to Heroku?" unless prefs.has_key? :heroku
+prefs[:stack] = multiple_choice "Choose your stack", [["Heroku", "heroku"], ["EC2", "ec2"]]
 
-## Web Server
-webservers = {"Thin" => "thin", "Unicorn" => "unicorn", "Puma" => "puma"}
-unless prefs[:heroku]
-  webservers["Passenger"] = "passenger"
-end
-
-prefs[:dev_webserver] = multiple_choice "Web server for development?", [["WEBrick (default)", "webrick"],
-  ["Thin", "thin"], ["Unicorn", "unicorn"], ["Puma", "puma"]] unless prefs.has_key? :dev_webserver
-webserver = multiple_choice "Web server for production?", webservers.to_a unless prefs.has_key? :prod_webserver
-if webserver == 'same'
-  case prefs[:dev_webserver]
-    when 'thin'
-      prefs[:prod_webserver] = 'thin'
-    when 'unicorn'
-      prefs[:prod_webserver] = 'unicorn'
-    when 'puma'
-      prefs[:prod_webserver] = 'puma'
-  end
-else
-  prefs[:prod_webserver] = webserver
-end
-
-## Database Adapter
-prefs[:database] = multiple_choice "Database used for application?", [["PostgreSQL", "postgresql"], ["MySQL", "mysql"]] unless prefs.has_key? :database
-
-## Template Engine
-prefs[:templates] = multiple_choice "Template engine?", [["ERB", "erb"], ["Haml", "haml"], ["Slim (experimental)", "slim"]] unless prefs.has_key? :templates
-
-## Testing Framework
-if recipes.include? 'testing'
-  prefs[:unit_test] = multiple_choice "Unit testing?", [["Test::Unit", "test_unit"], ["RSpec", "rspec"], ["MiniTest", "minitest"]] unless prefs.has_key? :unit_test
-  prefs[:integration] = multiple_choice "Integration testing?", [["None", "none"], ["RSpec with Capybara", "rspec-capybara"],
-    ["Cucumber with Capybara", "cucumber"], ["Turnip with Capybara", "turnip"], ["MiniTest with Capybara", "minitest-capybara"]] unless prefs.has_key? :integration
-  prefs[:fixtures] = multiple_choice "Fixture replacement?", [["None","none"], ["Factory Girl","factory_girl"], ["Machinist","machinist"], ["Fabrication","fabrication"]] unless prefs.has_key? :fixtures
-end
-
-## Email
-if recipes.include? 'email'
-  prefs[:email] = multiple_choice "Add support for sending email?", [["None", "none"], ["Gmail","gmail"], ["SMTP","smtp"],
-    ["SendGrid","sendgrid"], ["Mandrill","mandrill"]] unless prefs.has_key? :email
-else
-  prefs[:email] = 'none'
-end
 
 # save diagnostics before anything can fail
 create_file "README", "RECIPES\n#{recipes.sort.inspect}\n"
