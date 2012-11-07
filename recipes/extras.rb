@@ -36,25 +36,6 @@ after_everything do
   git :commit => '-qm "rails_apps_composer: extras"' if prefer :git, true
 end
 
-## GITHUB
-if config['github']
-  prefs[:github] = true
-end
-if prefs[:github]
-  gem 'hub', '>= 1.10.2', :require => nil, :group => [:development]
-  after_everything do
-    say_wizard "recipe creating GitHub repository"
-    git_uri = `git config remote.origin.url`.strip
-    if git_uri.size > 0
-      say_wizard "Repository already exists:"
-      say_wizard "#{git_uri}"
-    else
-      run "hub create #{app_name}"
-      run "hub push -u origin master"
-    end
-  end
-end
-
 __END__
 
 name: extras
