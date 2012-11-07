@@ -7,9 +7,6 @@ say_wizard "Your operating system is #{HOST_OS}."
 say_wizard "You are using Ruby version #{RUBY_VERSION}."
 say_wizard "You are using Rails version #{Rails::VERSION::STRING}."
 
-## Is sqlite3 in the Gemfile?
-gemfile = File.read(destination_root() + '/Gemfile')
-sqlite_detected = gemfile.include? 'sqlite3'
 
 prefs[:heroku] = yes_wizard? "Are you deploying to Heroku?" unless prefs.has_key? :heroku
 

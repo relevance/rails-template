@@ -22,7 +22,7 @@ else
 end
 
 ## Database Adapter
-gsub_file 'Gemfile', /gem 'sqlite3'\n/, '' unless prefer :database, 'sqlite'
+gsub_file 'Gemfile', /gem 'sqlite3'\n/, ''
 gem 'pg', '>= 0.14.1' if prefer :database, 'postgresql'
 gem 'mysql2', '>= 0.3.11' if prefer :database, 'mysql'
 
@@ -118,13 +118,11 @@ after_bundler do
     gsub_file "config/database.yml", /database: myapp_test/,        "database: #{app_name}_test"
     gsub_file "config/database.yml", /database: myapp_production/,  "database: #{app_name}_production"
   end
-  unless prefer :database, 'sqlite'
-    affirm = yes_wizard? "Drop any existing databases named with prefix #{app_name}_?"
-    if affirm
-      run 'bundle exec rake db:drop'
-    else
-      raise "aborted at user's request"
-    end
+  affirm = yes_wizard? "Drop any existing databases named with prefix #{app_name}_?"
+  if affirm
+    run 'bundle exec rake db:drop'
+  else
+    raise "aborted at user's request"
   end
   run 'bundle exec rake db:create:all'
   ## Git
