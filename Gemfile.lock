@@ -38,8 +38,17 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     arel (3.0.2)
+    binding_of_caller (0.6.8)
     builder (3.0.4)
     coderay (1.0.8)
+    columnize (0.3.6)
+    debugger (1.1.4)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.1.1)
+      debugger-ruby_core_source (~> 1.1.3)
+    debugger-linecache (1.1.2)
+      debugger-ruby_core_source (>= 1.1.1)
+    debugger-ruby_core_source (1.1.4)
     diff-lcs (1.1.3)
     erubis (2.7.0)
     generator_spec (0.8.5)
@@ -61,6 +70,14 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.3.1)
+    pry-debugger (0.2.0)
+      debugger (~> 1.1.3)
+      pry (~> 0.9.9)
+    pry-remote (0.1.6)
+      pry (~> 0.9)
+      slop (~> 3.0)
+    pry-stack_explorer (0.4.7)
+      binding_of_caller (~> 0.6.8)
     rack (1.4.1)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -119,6 +136,9 @@ DEPENDENCIES
   activemodel
   generator_spec
   pry
+  pry-debugger
+  pry-remote
+  pry-stack_explorer
   rails
   rails_apps_composer!
   railties
