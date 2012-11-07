@@ -55,20 +55,20 @@ if prefer :unit_test, 'minitest'
   gem 'minitest-wscolor', '>= 0.0.3', :group => :test
   gem 'capybara', '>= 1.1.2', :group => :test if prefer :integration, 'minitest-capybara'
 end
-if prefer :integration, 'cucumber'
-  gem 'cucumber-rails', '>= 1.3.0', :group => :test, :require => false
-  gem 'database_cleaner', '>= 0.9.1', :group => :test
-  gem 'launchy', '>= 2.1.2', :group => :test
-  gem 'capybara', '>= 1.1.2', :group => :test
-end
-gem 'turnip', '>= 1.0.0', :group => :test if prefer :integration, 'turnip'
+# if prefer :integration, 'cucumber'
+#   gem 'cucumber-rails', '>= 1.3.0', :group => :test, :require => false
+#   gem 'database_cleaner', '>= 0.9.1', :group => :test
+#   gem 'launchy', '>= 2.1.2', :group => :test
+#   gem 'capybara', '>= 1.1.2', :group => :test
+# end
+#gem 'turnip', '>= 1.0.0', :group => :test if prefer :integration, 'turnip'
 gem 'factory_girl_rails', '>= 4.1.0', :group => [:development, :test] if prefer :fixtures, 'factory_girl'
-gem 'fabrication', '>= 2.3.0', :group => [:development, :test] if prefer :fixtures, 'fabrication'
+#gem 'fabrication', '>= 2.3.0', :group => [:development, :test] if prefer :fixtures, 'fabrication'
 gem 'machinist', '>= 2.0', :group => :test if prefer :fixtures, 'machinist'
 
 ## Email
 gem 'sendgrid', '>= 1.0.1' if prefer :email, 'sendgrid'
-gem 'hominid', '>= 3.0.5' if prefer :email, 'mandrill'
+#gem 'hominid', '>= 3.0.5' if prefer :email, 'mandrill'
 
 ## Gems from a defaults file or added interactively
 gems.each do |g|
