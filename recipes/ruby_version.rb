@@ -1,40 +1,8 @@
-require 'forwardable'
+RUBY_VERSION_PATCH = "#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"
 
-class RubyVersion
-  extend Forwardable
-  def_delegators :@generator, :say_wizard, :create_file, :create_link
-  attr_reader :generator
-
-  def initialize(generator, file, link)
-    @generator = generator
-    @file      = file
-    @link      = link
-
-    @version = "#{RUBY_VERSION}p#{RUBY_PATCHLEVEL}"
-  end
-
-  def announce
-    say_wizard "recipe creating .ruby-version file and .rbenv-version symlink for Ruby #{@version}"
-  end
-
-  def make_file
-    create_file @file do
-      @version << "\n"
-    end
-  end
-
-  def make_link
-    create_link @link, @file
-  end
-
-end
-
-
-rv = RubyVersion.new(self, ".ruby-version", ".rbenv-version")
-rv.announce
-rv.make_file
-rv.make_link
-
+say_wizard "recipe creating .ruby-version file and .rbenv-version symlink for Ruby #{RUBY_VERSION_PATCH}"
+create_file('.ruby-version') { RUBY_VERSION_PATCH << "\n" }
+create_link '.rbenv-version', '.ruby-version'
 
 git :add => '-A' if prefer :git, true
 git :commit => '-qm "rails_apps_composer: .ruby-version and .rbenv-version"' if prefer :git, true
