@@ -8,7 +8,7 @@ say_wizard "You are using Ruby version #{RUBY_VERSION}."
 say_wizard "You are using Rails version #{Rails::VERSION::STRING}."
 
 
-prefs[:stack] = multiple_choice "Choose your stack", [["Heroku", "heroku"], ["EC2", "ec2"]]
+prefs[:stack] = multiple_choice "Choose your stack", [["Heroku", "heroku"], ["EC2", "ec2"]] unless prefs.has_key? :stack
 
 
 # save diagnostics before anything can fail
