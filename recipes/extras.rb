@@ -4,19 +4,6 @@
 ## QUIET ASSETS
 gem 'quiet_assets', '>= 1.0.1', :group => :development
 
-## JSRUNTIME
-case RbConfig::CONFIG['host_os']
-  when /linux/i
-    prefs[:jsruntime] = yes_wizard? "Add 'therubyracer' JavaScript runtime (for Linux users without node.js)?" unless prefs.has_key? :jsruntime
-    if prefs[:jsruntime]
-      # was it already added for bootstrap-less?
-      unless prefer :bootstrap, 'less'
-        say_wizard "recipe adding 'therubyracer' JavaScript runtime gem"
-        gem 'therubyracer', '>= 0.10.2', :group => :assets, :platform => :ruby
-      end
-    end
-end
-
 ## AFTER_EVERYTHING
 after_everything do
   say_wizard "recipe removing unnecessary files and whitespace"
