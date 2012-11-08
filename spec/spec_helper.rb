@@ -1,5 +1,4 @@
 require 'rspec'
-require 'thor'
 
 TEST_TMPDIR = File.expand_path("../tmp/", __FILE__)
 
