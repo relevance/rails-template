@@ -34,13 +34,14 @@
 * TODO Use this for OmniAuth providers
 * TODO Auto-create postgres user
 * TODO Offer to cancel if DB already exists
+* TODO Create mysql user in the gems recipe, similar to postgres
+
 
 * TODO Port magic scrolls from Relevance-Rails
 * TODO Add deploy script for Heroku if deploying to Heroku (reference tilt:config/deploy script)
 * TODO Ask about background jobs/Sidekiq?
 * TODO Ask about task scheduling/Whenever
 * TODO Rails version should use current Rails version pinned with ~.
-* TODO Create mysql user in the gems recipe, similar to postgres
 * TODO Nix upfront recipe-chooser menu.
 
 * TODO Problems to be solved
