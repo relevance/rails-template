@@ -14,13 +14,12 @@ describe Rails::Generators::AppGenerator do
 
   before do
     testing_recipe "ruby_version"
-
     prepare_destination
     run_generator
   end
 
-  it 'works!!!' do
-
+  it 'creates a ruby version file' do
+    File.exists?('.ruby-version').should be true
   end
 
 end
