@@ -15,14 +15,12 @@ recipes:
 - init
 
 prefs:
-  :dev_webserver: thin
   :templates: haml
   :unit_test: rspec
   :integration: rspec-capybara
   :fixtures: factory_girl
   :email: none
   :heroku: yes
-  :prod_webserver: thin
   :database: postgresql
   
 args:

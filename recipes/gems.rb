@@ -6,21 +6,6 @@
 ## Ruby on Rails
 insert_into_file 'Gemfile', "ruby '1.9.3'\n", :before => "gem 'rails', '3.2.6'" if prefer :stack, 'heroku'
 
-webserver_versions = {
-  'thin' => '>= 1.5.0',
-  'unicorn' => '>= 4.3.1',
-  'puma' => '>= 1.6.3',
-  'passenger' => '>= 3.0.17'
-}
-
-## Web Server
-if (prefs[:dev_webserver] == prefs[:prod_webserver])
-  gem prefs[:dev_webserver], webserver_versions[prefs[:dev_webserver]]
-else
-  gem prefs[:dev_webserver], webserver_versions[prefs[:dev_webserver]], :group => [:development, :test]
-  gem prefs[:prod_webserver], webserver_versions[prefs[:prod_webserver]], :group => :production
-end
-
 ## Database Adapter
 gsub_file 'Gemfile', /gem 'sqlite3'\n/, ''
 gem 'pg', '>= 0.14.1' if prefer :database, 'postgresql'
