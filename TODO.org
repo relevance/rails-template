@@ -29,9 +29,11 @@
 * DONE Ask about exception notification
 * DONE (2h) Use user's name by default for database username
 * DONE Discover effective testing pattern for recipes
-* TODO (2h) Create .ruby-version file
+* DONE (2h) Create .ruby-version file
 * TODO (8h) Add ability to give multiple answers
 * TODO Use this for OmniAuth providers
+* TODO Auto-create postgres user
+* TODO Offer to cancel if DB already exists
 
 * TODO Port magic scrolls from Relevance-Rails
 * TODO Add deploy script for Heroku if deploying to Heroku (reference tilt:config/deploy script)
@@ -47,14 +49,6 @@
      time, other state-changing things.
    - Testing requires shelling out to generate template, running afoul
      of user prompting.
-- It's not possible to both A) offer stacks that skip other recipes
-  and B) offer those skipped recipes stand-alone.
-   - Optionally exposing a recipe to a user (e.g., having Heroku stack
-    *available* means no form-builder, but otherwise we ask the user)
-    isn't currently possible. We'd have to extend the YAML config to be
-    know how to hide if a particular pref is present, figure out how to quash
-    recipe questions from within other recipes directly.
-
 
 * TODO Document
 ** Opting out of a prompt via YAML "unless_recipe" means that question
