@@ -1,3 +1,83 @@
+## High-level workflow
+
+'Template developers' -- folks working on this project -- run rails_app_composer and choose which recipes to bake into the template.rb file it outputs.
+
+This template.rb file is then consumed by application developers external to this project who want to choose, e.g. a Heroku stack vs an EC2 stack, via 'rails new'.
+
+
+## Current state of this code
+
+Gradually un-spaghettifying. 
+
+The original codebase assumes a bedrock layer of in-house recipes with the ability to layer in optional custom recipes. We'd prefer to see all recipe logic, including built-in logic, exist as stand-alone recipes with a tiny bit of controller code to route amongst them. As we improve the code, we're taking the opportunity to untangle the older bits accordingly.
+
+An unfortunate reality of Rails templates is that this output file needs to be a single file, so the essential operation of rails_app_composer is to spit their chosen code portions -- recipes -- into the resulting template.rb. 
+
+These recipes are then switched on and off at 'rails new'-time via the prefs object. (See the 'Recipes' section for more detail.)
+
+This prefs system is simple and effective but as we add more inter-recipe logic, avoiding brittle spaghetti code should be a chief concern.
+
+
+### Testing
+
+We have identified two or three worthwhile testing patterns, none of which are fully implemented.
+
+#### A) Recipe unit-testing
+
+Testing a stand-alone recipe. Recipes are sufficiently low-complexity that these tests will probably consist largely of ensuring that the path through the code, given the desired inputs, is correct.
+
+PROS: Easy. Fast.
+CONS: Of limited value. Making a recipe's functions testable in isolation seems to require class structure, which makes recipes slightly less transparent to the new reader.
+
+#### B) Recipe integration testing
+
+Testing one or more recipes by driving the Rails App Generator code to actually generate a new Rails app with the given inputs, then asserting various of its contents.
+
+PROS: Can test recipe combinations. This is important when, say, the Heroku recipe must dictate that no form-builder option be present. Uses built-in framework that includes some niceties like auto-clean-up.
+CONS: Much slower than unit tests -- 6 seconds instead of 20 milliseconds.
+
+#### C) Full-blown integration testing
+
+A set of tests running nightly on a CI server that generate a Rails App with particular inputs, then interacts with that app to ensure our expectations are met.
+
+PROS: End-to-end testing.
+CONS: Trail not yet blazed. Will presumably require non-trivial amount of work up-front and potentially on-going for each new test.
+
+Building new recipes is a fabulous opportunity to prove out these and other testing ideas.
+
+
+## Recipes
+
+### Single namespace
+Note that recipes become a shared namespace! Setting, say, a VERSION constant in recipe X would be a bad idea -- recipe Y may clobber it. Favor prepending the recipe name to any constants/variables for cheap namespacing.
+
+### Recipe exclusion logistics
+Rails App Composer has some slightly different assumptions about the way the world needs to work. From [Anatomy of a Recipe](http://railsapps.github.com/tutorial-rails-apps-composer.html#Anatomy)...
+
+    config:
+      - mars_test:
+          type: boolean
+          prompt: Do you also want to test your application on Mars?
+          if: space_test
+          if_recipe: mars_lander   
+
+Here, the 'mars_test' prompt will be skipped if the mars_lander recipe is available. This isn't that helpful; our typical need is to skip a prompt if the recipe was *selected* for use in the template.
+
+That is, we don't care much about recipe availability (there's no good reason all recipes can't be available) -- we care about what the user has chosen from the recipes and how that should affect later recipes.
+
+Our tack has been to alter the prefs object from within a recipe to affect later recipes. For example, if we want the form_builder recipe to be skipped when the user chooses the Heroku stack, recipes/heroku.rb would say...
+
+    prefs[:form_builder] = "none"
+
+and for this to have the desired effect, the form_builder recipe must run_after the heroku recipe, the form_builder prompt and recipe would both need to check prefs[:form_builder] and not execute if it equalled false.
+
+
+
+## Defaults.yml
+
+What does defaults.yml do? What does specifying a recipe there mean? Are prefs important? These should be documented.
+
+
 # Relevance Rails Template
 
 You like making Rails apps? I like making Rails apps!!!!!!!!!!!
