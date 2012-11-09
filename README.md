@@ -2,7 +2,7 @@
 
 'Template developers' -- folks working on this project -- run rails_app_composer and choose which recipes to bake into the template.rb file it outputs.
 
-This template.rb file is then consumed by application developers external to this project who want to choose, e.g. a Heroku stack vs an EC2 stack, via 'rails new'.
+This template.rb file is then consumed by external application developers wishing to jumpstart a new rails app by choosing, e.g. a Heroku stack vs an EC2 stack.
 
 
 ## Current state of this code
@@ -11,7 +11,7 @@ Gradually un-spaghettifying.
 
 The original codebase assumes a bedrock layer of in-house recipes with the ability to layer in optional custom recipes. We'd prefer to see all recipe logic, including built-in logic, exist as stand-alone recipes with a tiny bit of controller code to route amongst them. As we improve the code, we're taking the opportunity to untangle the older bits accordingly.
 
-An unfortunate reality of Rails templates is that this output file needs to be a single file, so the essential operation of rails_app_composer is to spit their chosen code portions -- recipes -- into the resulting template.rb. 
+An unfortunate reality of Rails application templates is that the output template.rb file works best as a single file, so the basic function of rails_app_composer is to spit the chosen code portions -- "recipes" -- into the resulting template.rb, making them available to the application developer later down the road.
 
 These recipes are then switched on and off at 'rails new'-time via the prefs object. (See the 'Recipes' section for more detail.)
 
