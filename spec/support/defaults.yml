@@ -15,14 +15,11 @@ recipes:
 - init
 
 prefs:
-  :templates: haml
-  :unit_test: rspec
-  :integration: rspec-capybara
-  :fixtures: factory_girl
-  :email: none
-  :heroku: yes
-  :database: postgresql
+  :stack: heroku
   :admin: false
+  :authentication: devise
+  :devise_modules: invitable
+  :omniauth_provider: facebook
   
 args:
   :skip_test_unit: yes 
