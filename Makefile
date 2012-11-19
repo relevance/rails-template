@@ -5,7 +5,8 @@ TEST_TEMPLATES=$(wildcard spec/support/templates/*)
 all: template.rb
 
 clean:
-	rm -rf tempapp template.rb test_template.rb
+	cd DIE; rake db:drop:all; cd ..
+	rm -rf DIE template.rb test_template.rb
 
 tempapp: clean template.rb 
 	rails new tempapp -m template.rb
