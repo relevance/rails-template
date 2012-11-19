@@ -1,8 +1,8 @@
 ## High-level workflow
 
-'Template developers' -- folks working on this project -- run rails_app_composer and choose which recipes to bake into the template.rb file it outputs.
+'Template developers' -- folks working on this project -- run rails_app_composer and choose which recipes to bake into the template.rb file it outputs. 
 
-This template.rb file is then consumed by external application developers wishing to jumpstart a new rails app by choosing, e.g. a Heroku stack vs an EC2 stack.
+These recipes thereby become available to external application developers wishing to jumpstart a new rails app by choosing, e.g. a Heroku stack vs an EC2 stack.
 
 
 ## Current state of this code
@@ -65,7 +65,7 @@ Here, the 'mars_test' prompt will be skipped if the mars_lander recipe is availa
 
 That is, we don't care much about recipe availability (there's no good reason all recipes can't be available) -- we care about what the user has chosen from the recipes and how that should affect later recipes.
 
-Our tack has been to alter the prefs object from within a recipe to affect later recipes. For example, if we want the form_builder recipe to be skipped when the user chooses the Heroku stack, recipes/heroku.rb would say...
+Our tack has been to avoid the prompt facility entirely, and alter the prefs object from within a recipe to affect later recipes. For example, if we want the form_builder recipe to be skipped when the user chooses the Heroku stack, recipes/heroku.rb would say...
 
     prefs[:form_builder] = "none"
 

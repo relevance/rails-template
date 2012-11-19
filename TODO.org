@@ -32,8 +32,8 @@
 * DONE (2h) Create .ruby-version file
 * TODO (8h) Add ability to give multiple answers
 * TODO Use this for OmniAuth providers
-* TODO Auto-create postgres user
-* TODO Offer to cancel if DB already exists
+* DONE Auto-create postgres user
+* DONE Offer to cancel if DB already exists
 * TODO Create mysql user in the gems recipe, similar to postgres
 
 
