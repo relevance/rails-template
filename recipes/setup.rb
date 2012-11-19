@@ -12,6 +12,9 @@ prefs[:stack] = multiple_choice "Choose your stack", [["Heroku", "heroku"], ["EC
 
 prefs[:admin] = yes_wizard? "Do you want to install ActiveAdmin?" unless prefs.has_key? :admin
 
+prefs[:authentication] = multiple_choice "What authentication solution would you like to use?",
+[["None", "none"], ["Devise", "devise"], ["OmniAuth", "omniauth"], ["Devise + OmniAuth", "devise-omniauth"]] unless prefs.has_key? :authentication
+
 
 # save diagnostics before anything can fail
 create_file "README", "RECIPES\n#{recipes.sort.inspect}\n"

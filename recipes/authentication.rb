@@ -1,17 +1,16 @@
-prefs[:authentication] = config['authentication']
-prefs[:devise] = !!config['authentication'].match(/devise/)
-prefs[:omniauth] = !!config['authentication'].match(/omniauth/)
+prefs[:devise] = prefs[:authentication] && !!prefs[:authentication].match(/devise/)
+prefs[:omniauth] = prefs[:authentication] && !!prefs[:authentication].match(/omniauth/)
 
 if prefs[:devise]
   prefs[:devise_modules] = multiple_choice("Devise modules?", [
                                              ["Devise with default modules", "default"],
                                              ["Devise with Confirmable module", "confirmable"],
-                                             ["Devise with Confirmable and Invitable modules", "invitable"]])
+                                             ["Devise with Confirmable and Invitable modules", "invitable"]]) unless prefs.has_key?(:devise_modules)
 
   gem 'devise', '~> 2.1.2'
   gem 'devise_invitable', '~> 1.0.3' if prefer :devise_modules, 'invitable'
 
-  prefs[:devise_user] = yes_wizard?("Do you want to create a User model for Devise?")
+  prefs[:devise_user] = yes_wizard?("Do you want to create a User model for Devise?") unless prefs.has_key?(:devise_user)
 end
 
 if prefs[:omniauth]
@@ -21,7 +20,7 @@ if prefs[:omniauth]
                                                 ["GitHub", "github"],
                                                 ["LinkedIn", "linkedin"],
                                                 ["Google-Oauth-2", "google_oauth2"],
-                                                ["Tumblr", "tumblr"]])
+                                                ["Tumblr", "tumblr"]]) unless prefs.has_key?(:omniauth_provider)
 
   gem 'omniauth', '~> 1.1.1'
   gem 'omniauth-twitter' if prefer :omniauth_provider, 'twitter'
@@ -137,11 +136,5 @@ description: "Choose an authentication solution."
 author: Relevance
 
 requires: [setup, git]
-run_after: [setup, git]
+run_after: [setup, git, gems]
 category: components
-
-config:
-  - authentication:
-      type: multiple_choice
-      prompt: "What authentication solution would you like to use?"
-      choices: [["None", "none"], ["Devise", "devise"], ["OmniAuth", "omniauth"], ["Devise + OmniAuth", "devise-omniauth"]]
