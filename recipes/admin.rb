@@ -1,7 +1,12 @@
-gem 'activeadmin' if config['active_admin']
 
-after_bundler do
-  generate "active_admin:install" if config['active_admin']
+if prefs[:admin]
+  prefs['form_builder'] = 'formtastic'
+
+  gem 'activeadmin'
+
+  after_bundler do
+    generate "active_admin:install"
+  end
 end
 
 __END__
@@ -13,8 +18,3 @@ author: Relevance
 category: components
 requires: [setup, gems]
 run_after: [gems]
-
-config:
-  - active_admin:
-      type: boolean
-      prompt: "Do you want to install ActiveAdmin?"

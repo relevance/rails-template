@@ -22,6 +22,7 @@ prefs:
   :email: none
   :heroku: yes
   :database: postgresql
+  :admin: false
   
 args:
   :skip_test_unit: yes 

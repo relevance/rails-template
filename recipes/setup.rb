@@ -10,6 +10,8 @@ say_wizard "You are using Rails version #{Rails::VERSION::STRING}."
 
 prefs[:stack] = multiple_choice "Choose your stack", [["Heroku", "heroku"], ["EC2", "ec2"]] unless prefs.has_key? :stack
 
+prefs[:admin] = yes_wizard? "Do you want to install ActiveAdmin?" unless prefs.has_key? :admin
+
 
 # save diagnostics before anything can fail
 create_file "README", "RECIPES\n#{recipes.sort.inspect}\n"
