@@ -71,17 +71,9 @@ after_bundler do
   default_username = ENV['USER']
   if prefer :database, 'postgresql'
     begin
-      pg_username = ask_wizard("Username for PostgreSQL? (leave blank to use '#{default_username}')")
-      if pg_username.blank?
-        say_wizard "Creating a user named '#{default_username}' for PostgreSQL"
-        run %{sudo su postgres -c "createuser -d -R -S #{default_username}"} if prefer :database, 'postgresql'
-        gsub_file "config/database.yml", /username: .*/, "username: #{default_username}"
-      else
-        gsub_file "config/database.yml", /username: .*/, "username: #{pg_username}"
-        pg_password = ask_wizard("Password for PostgreSQL user #{pg_username}?")
-        gsub_file "config/database.yml", /password:/, "password: #{pg_password}"
-        say_wizard "set config/database.yml for username/password #{pg_username}/#{pg_password}"
-      end
+      say_wizard "Creating a user named '#{default_username}' for PostgreSQL"
+      run %{sudo su postgres -c "createuser -d -R -S #{default_username}"} if prefer :database, 'postgresql'
+      gsub_file "config/database.yml", /username: .*/, "username: #{default_username}"
     rescue StandardError => e
       raise "unable to create a user for PostgreSQL, reason: #{e}"
     end
@@ -103,13 +95,14 @@ after_bundler do
     gsub_file "config/database.yml", /database: myapp_test/,        "database: #{app_name}_test"
     gsub_file "config/database.yml", /database: myapp_production/,  "database: #{app_name}_production"
   end
-  affirm = yes_wizard? "Drop any existing databases named with prefix #{app_name}_?"
-  if affirm
-    run 'bundle exec rake db:drop'
-  else
-    raise "aborted at user's request"
+  db_create_error = Open3.capture3("bundle exec rake db:create:all")[1]
+  puts "Creating databases: #{app_name}_development, #{app_name}_test, #{app_name}_production"
+  if db_create_error.include?("already exists")
+    puts db_create_error
+    if yes_wizard?( "Would you like to quit?")
+      exit
+    end
   end
-  run 'bundle exec rake db:create:all'
   ## Git
   git :add => '-A' if prefer :git, true
   git :commit => '-qm "rails_apps_composer: create database"' if prefer :git, true
