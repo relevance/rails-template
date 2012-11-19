@@ -19,6 +19,13 @@ recipes:
 - ec2
 - ruby_version
 
+prefs:
+  :stack: heroku
+  :admin: false
+  :authentication: devise
+  :devise_modules: confirmable
+  :devise_user: true
+
 args:
   :skip_test_unit: yes
   :skip_active_record: false
