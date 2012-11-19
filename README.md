@@ -18,7 +18,41 @@ These recipes are then switched on and off at 'rails new'-time via the prefs obj
 This prefs system is simple and effective but as we add more inter-recipe logic, avoiding brittle spaghetti code should be a chief concern.
 
 
-### Testing
+## Recipes
+
+### Single namespace
+Note that recipes become a shared namespace! Setting, say, a VERSION constant in recipe X would be a bad idea -- recipe Y may clobber it. Favor prepending the recipe name to any constants/variables for cheap namespacing.
+
+### Recipe logistics
+Rails App Composer has some slightly different assumptions about the way the world needs to work. From [Anatomy of a Recipe](http://railsapps.github.com/tutorial-rails-apps-composer.html#Anatomy), this is a standard YAML prompt...
+
+    config:
+      - mars_test:
+          type: boolean
+          prompt: Do you also want to test your application on Mars?
+          if: space_test
+          if_recipe: mars_lander   
+
+Here, the 'mars_test' prompt will be skipped if the mars_lander recipe is available. This isn't that helpful; our typical need is to skip a prompt if the recipe was *selected* for use in the template.
+
+That is, we don't care much about recipe availability (there's no good reason all recipes can't be available) -- we care about what the user has chosen from the recipes and how that should affect later recipes.
+
+Our tack has been to avoid this YAML prompt facility entirely, using our own prompts within setup.rb, and altering the prefs object from within a recipe to affect later recipes. 
+
+For example, if we want the Active Admin to be optional -- not prompted -- and if the external application developer chooses it, then we want to also install form_builder, then setup.rb would include...
+
+    prefs[:admin] = yes_wizard? "Do you want to install ActiveAdmin?" unless prefs.has_key? :admin
+
+(The conditional prefs.has_key? check at the end allows this prompt to be nullified via defaults.yml.)
+
+Then in the active_admin recipe, we can conditionally direct the form_builder recipe to run like so...
+
+    prefs[:form_builder] = true
+
+For this to have the desired effect, the form_builder recipe must run_after the heroku recipe.
+
+
+## Testing
 
 We have identified two or three worthwhile testing patterns, none of which are fully implemented.
 
@@ -44,33 +78,6 @@ PROS: End-to-end testing.
 CONS: Trail not yet blazed. Will presumably require non-trivial amount of work up-front and potentially on-going for each new test.
 
 Building new recipes is a fabulous opportunity to prove out these and other testing ideas.
-
-
-## Recipes
-
-### Single namespace
-Note that recipes become a shared namespace! Setting, say, a VERSION constant in recipe X would be a bad idea -- recipe Y may clobber it. Favor prepending the recipe name to any constants/variables for cheap namespacing.
-
-### Recipe exclusion logistics
-Rails App Composer has some slightly different assumptions about the way the world needs to work. From [Anatomy of a Recipe](http://railsapps.github.com/tutorial-rails-apps-composer.html#Anatomy)...
-
-    config:
-      - mars_test:
-          type: boolean
-          prompt: Do you also want to test your application on Mars?
-          if: space_test
-          if_recipe: mars_lander   
-
-Here, the 'mars_test' prompt will be skipped if the mars_lander recipe is available. This isn't that helpful; our typical need is to skip a prompt if the recipe was *selected* for use in the template.
-
-That is, we don't care much about recipe availability (there's no good reason all recipes can't be available) -- we care about what the user has chosen from the recipes and how that should affect later recipes.
-
-Our tack has been to avoid the prompt facility entirely, and alter the prefs object from within a recipe to affect later recipes. For example, if we want the form_builder recipe to be skipped when the user chooses the Heroku stack, recipes/heroku.rb would say...
-
-    prefs[:form_builder] = "none"
-
-and for this to have the desired effect, the form_builder recipe must run_after the heroku recipe, the form_builder prompt and recipe would both need to check prefs[:form_builder] and not execute if it equalled false.
-
 
 
 ## Defaults.yml
