@@ -6,6 +6,7 @@ gem 'generator_spec'
 gem 'activemodel'
 gem 'actionpack'
 gem 'railties'
+gem 'rspec'
 
 group :development do
   gem 'pry'
