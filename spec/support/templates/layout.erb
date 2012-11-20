@@ -23,6 +23,8 @@
 
 # >----------------------------[ Initial Setup ]------------------------------<
 
+ENV['BUNDLE_GEMFILE'] = "/home/pair/src/rails-template/spec/tmp/app_dir/DIE/Gemfile"
+
 @recipes = <%= resolve_recipes.map(&:key).inspect %>
 @prefs = <%= resolve_preferences %>
 @gems = <%= resolve_gems %>
