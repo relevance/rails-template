@@ -8,19 +8,21 @@ recipes:
 - models
 - controllers
 - views
+- frontend
+- form_builder
 - authentication
 - admin
 - koality
 - extras
 - init
+- heroku
+- ec2
+- ruby_version
 
 prefs:
   :stack: heroku
   :admin: false
-  :authentication: devise
-  :devise_modules: invitable
-  :omniauth_provider: facebook
-  
+
 args:
-  :skip_test_unit: yes 
+  :skip_test_unit: yes
   :skip_active_record: false
