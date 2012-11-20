@@ -8,12 +8,23 @@ require 'rails/generators/rails/app/app_generator'
 require 'generator_spec/test_case'
 
 describe Rails::Generators::AppGenerator do
+
+
   include GeneratorSpec::TestCase
   destination TEST_APPDIR
   arguments ["DIE", "-m", TEST_TEMPLATE_FILE]
 
   before do
-    testing_recipe "ruby_version"
+
+    testing_recipe "ruby_version" do
+      {'prefs' => {
+          :stack => 'heroku',
+          :authentication => 'devise',
+          :devise_modules => 'invitable',
+          :devise_user => false,
+          :omniauth_provider => 'facebook'}}
+    end
+
     prepare_destination
     run_generator
   end
