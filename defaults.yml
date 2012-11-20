@@ -18,6 +18,7 @@ recipes:
 - heroku
 - ec2
 - ruby_version
+- exception_notification
 
 prefs:
   :stack: heroku
