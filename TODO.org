@@ -44,14 +44,14 @@
 * TODO Rails version should use current Rails version pinned with ~.
 * TODO Nix upfront recipe-chooser menu.
 
-* TODO Problems to be solved
+* DONE Problems to be solved
  - Code not yet testable in clean, isolated way.
    - Stock layout.erb causes generator to run bundler at construction
      time, other state-changing things.
    - Testing requires shelling out to generate template, running afoul
      of user prompting.
 
-* TODO Document
+* DONE Document
 ** Opting out of a prompt via YAML "unless_recipe" means that question
    will not run if the indicated recipe is present -- even if that
    recipe itself is opted out of. This means if we want no frontend
