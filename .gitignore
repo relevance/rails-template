@@ -2,4 +2,5 @@
 bin/
 vendor/
 tempapp
-spec/tmp
+spec/tmp/app_dir
+spec/tmp/test_template.rb
