@@ -8,7 +8,6 @@ recipes:
 - models
 - controllers
 - views
-- frontend
 - form_builder
 - authentication
 - admin
