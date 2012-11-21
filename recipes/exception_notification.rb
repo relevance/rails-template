@@ -1,16 +1,6 @@
 say_wizard "recipe installing exceptional"
 gem 'exceptional'
-
-after_bundler do
-  # create_file "config/initializers/coalmine.rb" do
-  #   write_initializer_coalmine
-  # end
-
-  if prefer :git, true
-    git :add => '-A'
-    git :commit => '-qm "rails_apps_composer: exceptional"'
-  end
-end
+create_file "config/initializers/exceptional.txt", "Further instructions for Exceptional setup are available at http://getexceptional.com/"
 
 __END__
 

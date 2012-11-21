@@ -2,19 +2,22 @@ require 'spec_helper'
 
 test_generator do
   testing_recipe "exception_notification" do
-    {'prefs' => {
-        :stack => 'heroku',
-        :authentication => 'devise',
-        :devise_modules => 'invitable',
-        :devise_user => false,
-        :omniauth_provider => 'facebook'}}
+    {'prefs' => {:stack => 'heroku'}}
   end
 
-  specify do
-    destination_root.should have_structure do
-      file 'Gemfile' do
+  specify "Gemfile contains 'exceptional'" do
+    destination_root.should have_structure {
+      file 'DIE/Gemfile' do
         contains 'exceptional'
       end
-    end
+    }
+  end
+
+  specify "config initializer note points to 'getexceptional.com'" do
+    destination_root.should have_structure {
+      file 'DIE/config/initializers/exceptional.txt' do
+        contains 'getexceptional.com'
+      end
+    }
   end
 end
