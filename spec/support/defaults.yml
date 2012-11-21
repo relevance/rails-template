@@ -23,6 +23,7 @@ recipes:
 prefs:
   :stack: heroku
   :admin: false
+  :authentication: false
 
 args:
   :skip_test_unit: yes
