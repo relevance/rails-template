@@ -6,6 +6,7 @@ require 'action_controller'
 require 'rails/generators'
 require 'rails/generators/rails/app/app_generator'
 require 'generator_spec/test_case'
+require 'support/matchers'
 
 
 TEST_APP_NAME = "DIE"
@@ -15,8 +16,8 @@ SUPPORT_DIR = File.expand_path("../support", __FILE__)
 
 TEST_APP_CONTAINER = TEST_TMPDIR + "/app_dir"
 TEST_TEMPLATE_FILE = TEST_TMPDIR + "/test_template.rb"
-DEFAULT_FILE       = SUPPORT_DIR + '/defaults.yml'
-TEST_DEFAULT_FILE  = TEST_TMPDIR + '/defaults.yml'
+DEFAULT_FILE       = SUPPORT_DIR + "/defaults.yml"
+TEST_DEFAULT_FILE  = TEST_TMPDIR + "/defaults.yml"
 
 TEST_APP_DIR       = TEST_APP_CONTAINER + "/" + TEST_APP_NAME
 
