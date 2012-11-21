@@ -1,0 +1,30 @@
+---
+recipes:
+- git
+- setup
+- readme
+- gems
+- testing
+- email
+- models
+- controllers
+- views
+- form_builder
+- authentication
+- admin
+- koality
+- extras
+- init
+- heroku
+- ec2
+- ruby_version
+- exception_notification
+prefs:
+  :stack: heroku
+  :admin: false
+  :authentication: devise
+  :devise_user: true
+  :devise_modules: invitable
+args:
+  :skip_test_unit: true
+  :skip_active_record: false
