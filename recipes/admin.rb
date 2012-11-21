@@ -1,6 +1,5 @@
-
-if prefs[:admin]
-  prefs['form_builder'] = 'formtastic'
+if prefer :admin, "true"
+  prefs[:form_builder] = 'formtastic'
 
   gem 'activeadmin'
 
