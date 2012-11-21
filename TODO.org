@@ -61,3 +61,8 @@
    recipe must be marked to run after the heroku recipe so that it can
    respond to the settings defined in the heroku recipe.
 
+* authentication grid
+| mod      | default | confirmable | invitable | noproviders | all providers |
+| devise   | x       |             | x         |             |               |
+| both     | x       | x           | x         |             |               |
+| omniauth |         |             |           |     x       |        x      |

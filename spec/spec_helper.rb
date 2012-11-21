@@ -67,3 +67,35 @@ def testing_recipe(recipes, &blk)
     %x(make test_template.rb)
   end
 end
+
+def app_root(path)
+  TEST_APP_NAME + "/" + path
+end
+
+def file_has_content(file, *text)
+  destination_root.should have_structure {
+    file(app_root(file)) do
+      text.each { |t| contains t }
+    end
+  }
+end
+
+def file_omits_content(file, *text)
+  destination_root.should have_structure {
+    file(app_root(file)) do
+      text.each { |t| omits t }
+    end
+  }
+end
+
+def migration_exists(file)
+  destination_root.should have_structure {
+    directory(app_root("db")) do
+      directory "migrate" do
+        migration file do
+          contains "class"
+        end
+      end
+    end
+  }
+end
