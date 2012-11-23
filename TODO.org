@@ -36,7 +36,7 @@
 * DONE Offer to cancel if DB already exists
 * TODO Create mysql user in the gems recipe, similar to postgres
 
-
+* TODO Split gems.rb into a bunch of smaller recipes.
 * TODO Port magic scrolls from Relevance-Rails
 * TODO Add deploy script for Heroku if deploying to Heroku (reference tilt:config/deploy script)
 * TODO Ask about background jobs/Sidekiq?
