@@ -48,6 +48,6 @@ test_generator do
   specify do
     file_contains "Gemfile", "omniauth-twitter"
     file_contains "config/initializers/omniauth.rb", "twitter"
-    migration_contains "create_user", ":provider"
+    migration_contains "create_users", ":provider"
   end
 end
