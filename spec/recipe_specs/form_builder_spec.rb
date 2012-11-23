@@ -9,11 +9,7 @@ test_generator do
   end
 
   specify "Gemfile contains 'formtastic'" do
-    destination_root.should have_structure {
-      file 'DIE/Gemfile' do
-        contains 'formtastic'
-      end
-    }
+    file_contains 'Gemfile', 'formtastic'
   end
 end
 
@@ -25,10 +21,6 @@ test_generator do
   end
 
   specify "Gemfile omits 'formtastic'" do
-    destination_root.should have_structure {
-      file 'DIE/Gemfile' do
-        omits 'formtastic'
-      end
-    }
+      file_omits 'Gemfile', 'formtastic'
   end
 end

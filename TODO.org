@@ -61,8 +61,12 @@
    recipe must be marked to run after the heroku recipe so that it can
    respond to the settings defined in the heroku recipe.
 
-* authentication grid
-| mod      | default | confirmable | invitable | noproviders | all providers |
-| devise   | x       |             | x         |             |               |
-| both     | x       | x           | x         |             |               |
-| omniauth |         |             |           |     x       |        x      |
+* TODO Selection combos currently deemed worth covering.
+|          | (d) default | (d) conf. | (d) inv. | (oa) twitter | (oa) all |
+| devise   | x           | x         | x        |              |          |
+| omniauth |             |           |          | x            | ?        |
+| both     | _           | _         | _        |              | ?        | 
+
+ [x] Done.
+ [_] TODO
+ [?] Requires multiple-select branch to be merged.

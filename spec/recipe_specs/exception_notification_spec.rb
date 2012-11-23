@@ -6,18 +6,10 @@ test_generator do
   end
 
   specify "Gemfile contains 'exceptional'" do
-    destination_root.should have_structure {
-      file 'DIE/Gemfile' do
-        contains 'exceptional'
-      end
-    }
+    file_contains 'Gemfile', 'exceptional'
   end
 
   specify "config initializer note points to 'getexceptional.com'" do
-    destination_root.should have_structure {
-      file 'DIE/config/initializers/exceptional.txt' do
-        contains 'getexceptional.com'
-      end
-    }
+    file_contains 'config/initializers/exceptional.txt', 'getexceptional.com'
   end
 end

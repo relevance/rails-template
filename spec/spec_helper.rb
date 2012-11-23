@@ -72,7 +72,7 @@ def app_root(path)
   TEST_APP_NAME + "/" + path
 end
 
-def file_has_content(file, *text)
+def file_contains(file, *text)
   destination_root.should have_structure {
     file(app_root(file)) do
       text.each { |t| contains t }
@@ -80,7 +80,7 @@ def file_has_content(file, *text)
   }
 end
 
-def file_omits_content(file, *text)
+def file_omits(file, *text)
   destination_root.should have_structure {
     file(app_root(file)) do
       text.each { |t| omits t }
@@ -88,12 +88,12 @@ def file_omits_content(file, *text)
   }
 end
 
-def migration_exists(file)
+def migration_contains(file, *text)
   destination_root.should have_structure {
     directory(app_root("db")) do
       directory "migrate" do
         migration file do
-          contains "class"
+           text.each {|t| contains t }
         end
       end
     end
