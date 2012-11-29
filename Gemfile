@@ -13,6 +13,6 @@ group :development do
   gem 'pry-remote'
   gem 'pry-stack_explorer'
   gem 'pry-debugger'
-  gem "capybara-webkit"
+  gem "capybara-webkit", '0.12.1'
   gem 'headless'
 end
