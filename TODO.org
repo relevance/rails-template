@@ -70,3 +70,6 @@
  [x] Done.
  [_] TODO
  [?] Requires multiple-select branch to be merged.
+
+* TODO figure out if we can use Rake instead of Make
+* TODO use haml instead of erb in rails app

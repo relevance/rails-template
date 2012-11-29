@@ -12,7 +12,7 @@ require 'spec_helper'
 
 test_generator do
   testing_recipe "devise with default modules" do
-    {'prefs' => {:stack => 'heroku', :authentication => 'devise', :devise_user => true, :devise_modules => 'default' }}
+    prefs :stack => 'heroku', :authentication => 'devise', :devise_user => true, :devise_modules => 'default'
   end
   specify do
     file_contains "Gemfile", "devise"
@@ -23,7 +23,7 @@ end
 
 test_generator do
   testing_recipe "devise with confirmable module" do
-    {'prefs' => {:stack => 'heroku', :authentication => 'devise', :devise_user => true, :devise_modules => 'confirmable' }}
+    prefs :stack => 'heroku', :authentication => 'devise', :devise_user => true, :devise_modules => 'confirmable'
   end
   specify do
     file_contains "db/seeds.rb", "user.confirm!"
@@ -32,7 +32,7 @@ end
 
 test_generator do
   testing_recipe "devise with invitable module" do
-    {'prefs' => {:stack => 'heroku', :authentication => 'devise', :devise_user => true, :devise_modules => 'invitable' }}
+    prefs :stack => 'heroku', :authentication => 'devise', :devise_user => true, :devise_modules => 'invitable'
   end
   specify do
     file_contains "Gemfile", "devise_invitable"
@@ -43,7 +43,7 @@ end
 
 test_generator do
   testing_recipe "omniauth with no providers" do
-    {'prefs' => {:stack => 'heroku', :authentication => 'omniauth', :omniauth_provider => "twitter" }}
+    prefs :stack => 'heroku', :authentication => 'omniauth', :omniauth_provider => "twitter"
   end
   specify do
     file_contains "Gemfile", "omniauth-twitter"

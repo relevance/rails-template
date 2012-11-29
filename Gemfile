@@ -7,6 +7,7 @@ gem 'activemodel'
 gem 'actionpack'
 gem 'railties'
 gem 'rspec'
+gem 'httparty'
 
 group :development do
   gem 'pry'

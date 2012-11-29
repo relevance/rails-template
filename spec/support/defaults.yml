@@ -15,12 +15,14 @@ recipes:
 - extras
 - init
 - heroku
+- heroku_deploy
 - ec2
 - ruby_version
 - exception_notification
 
 prefs:
   :stack: heroku
+  :heroku_deploy: false
   :admin: false
   :authentication: false
 
