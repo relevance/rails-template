@@ -2,7 +2,7 @@ require 'spec_helper'
 
 test_generator do
   testing_recipe "exception_notification" do
-    {'prefs' => {:stack => 'heroku'}}
+    prefs :stack => 'heroku'
   end
 
   specify "Gemfile contains 'exceptional'" do

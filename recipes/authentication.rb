@@ -49,6 +49,20 @@ after_bundler do
         gsub_file 'app/models/user.rb', /:registerable,/, ":registerable, :confirmable,"
         generate 'migration AddConfirmableToUsers confirmation_token:string confirmed_at:datetime confirmation_sent_at:datetime unconfirmed_email:string'
       end
+
+      ## ROUTES
+      devise_paths = ', :path => "", :path_names => { :sign_in => "login", :sign_out => "logout", :sign_up => "register" }'
+      insert_into_file 'config/routes.rb', devise_paths, :after => 'devise_for :users'
+
+      insert_into_file 'config/routes.rb', "\n  resources :users", :after => devise_paths
+      insert_into_file 'config/routes.rb', "\n  root :to => 'users/sessions#new'", :after => devise_paths
+      insert_into_file 'config/routes.rb', " do\n    get '/', :to => 'home#index'\n  end", :after => devise_paths
+
+      ## CONTROLLER
+      insert_into_file  'app/controllers/application_controller.rb', "\n\n  def after_sign_in_path_for(resource)\n    '/home/index'\n  end", :after => 'protect_from_forgery' 
+
+      # INITIALIZER
+      gsub_file 'config/initializers/devise.rb', "config.sign_out_via = :delete", "config.sign_out_via = :get"
     end
   end
 

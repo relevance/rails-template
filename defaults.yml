@@ -15,16 +15,18 @@ recipes:
 - extras
 - init
 - heroku
+- heroku_deploy
 - ec2
 - ruby_version
 - exception_notification
 
 prefs:
-  :stack: heroku
   :admin: false
   :authentication: devise
-  :devise_modules: confirmable
+  :heroku_app_name: 'relevance-test'
+  :stack: 'heroku'
   :devise_user: true
+  :devise_modules: 'confirmable'
 
 args:
   :skip_test_unit: yes

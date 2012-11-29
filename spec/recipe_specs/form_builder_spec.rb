@@ -3,9 +3,7 @@ require 'spec_helper'
 
 test_generator do
   testing_recipe "form_builder" do
-    {'prefs' => {
-        :admin => 'true',
-      }}
+    prefs :admin => 'true'
   end
 
   specify "Gemfile contains 'formtastic'" do
@@ -15,12 +13,10 @@ end
 
 test_generator do
   testing_recipe "form_builder" do
-    {'prefs' => {
-        :admin => 'false',
-      }}
+    prefs :admin => 'false'
   end
 
   specify "Gemfile omits 'formtastic'" do
-      file_omits 'Gemfile', 'formtastic'
+    file_omits 'Gemfile', 'formtastic'
   end
 end
