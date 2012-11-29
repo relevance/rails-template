@@ -1,7 +1,7 @@
 source :rubygems
 
 gem 'rails'
-gem 'rails_apps_composer', :path => '../rails_apps_composer'
+gem 'rails_apps_composer'
 gem 'generator_spec'
 gem 'activemodel'
 gem 'actionpack'
@@ -13,4 +13,6 @@ group :development do
   gem 'pry-remote'
   gem 'pry-stack_explorer'
   gem 'pry-debugger'
+  gem "capybara-webkit"
+  gem 'headless'
 end
