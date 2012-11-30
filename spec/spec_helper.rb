@@ -79,9 +79,8 @@ def testing_recipe(recipes, &blk)
   before(:all) do
     do_defaults(&blk)
 
-    %x(make drop_app_dbs)
-    %x(make remove_test_app_container)
-    %x(make test_template.rb)
+    %x(rake compose:clean_tests)
+    %x(rake compose:create_tests)
   end
 end
 
