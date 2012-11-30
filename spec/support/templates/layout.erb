@@ -28,7 +28,7 @@
 # test_template Makefile command, even if running after this
 # assignment has already been occurred in previous spec runs, will
 # still see the correct top-level Gemfile.
-ENV['BUNDLE_GEMFILE'] = "./Gemfile"
+# ENV['BUNDLE_GEMFILE'] = "./Gemfile"
 
 @recipes = <%= resolve_recipes.map(&:key).inspect %>
 @prefs = <%= resolve_preferences %>
